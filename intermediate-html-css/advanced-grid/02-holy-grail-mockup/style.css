@@ -89,3 +89,62 @@
   font-size: 13px;
   font-weight: normal;
 }
+
+/* Adding custom style rules from here from now on */
+.container {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: repeat(2, minmax(1fr, max-content)) 5fr 1fr;
+  gap: 4px;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-area: 1 / span 2;
+
+  align-content: center;
+  justify-content: center;
+}
+
+.menu,
+.nav {
+  display: grid; 
+  justify-content: stretch;
+  align-self: center;
+}
+
+.menu ul,
+.nav ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8ch, 1fr));
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  list-style-type: none;
+}
+
+.sidebar {
+  display: grid;
+  grid-template-rows: repeat(auto-fit, minmax(max-content, 1fr));
+  grid-area: 2 / 1 / 5 / 2;
+  gap: 50px;
+
+}
+
+.article {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(1fr, 200px));
+  grid-area: 3 / 2 / span 2 / 2;
+  gap: 15px;
+}
+
+.article div {
+  align-self: center;
+}
+
+.footer {
+  grid-area: 5 / 1 / 6 / 3;
+}
