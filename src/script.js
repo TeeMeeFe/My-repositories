@@ -112,8 +112,8 @@ function showRemoverModal(book) {
     btn.addEventListener("click", (e) => {
         e.preventDefault();
         handleRemover(book);
-        return ;
     });
+    return ;
 };
    
 function handleRemover(book) {
@@ -127,6 +127,7 @@ function handleRemover(book) {
             arr.splice(index, 1);
             return arr;
         }
+        console.error("Couldn't find any books at the specified index!");
         return ;
     })(libraryBooks, book);
     
@@ -138,7 +139,6 @@ function handleRemover(book) {
     console.log(`Succesfully removed book: ${book.name}`);
 
     b = null;
-    return book;
 };
 
 // Them event listeners
