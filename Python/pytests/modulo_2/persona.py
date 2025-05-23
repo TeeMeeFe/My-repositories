@@ -54,40 +54,34 @@ class Persona:
     
     def eliminar_persona(self):
         del self
-        return self
     
     def esMayorDeEdad(self):
-        es_mayor = True if(self.__edad >= 18) else False
+        __e = False if self.__edad == -1 else self.__edad
+        es_mayor = True if __e >= 18 and __e != False else False
         return es_mayor
 
 # Una funcion para agregar a una persona a una lista
 def agregar_persona(nombre, edad, dni):
     print(f"Se ha agregado una persona: {nombre}, edad: {edad}, DNI: {dni}, con exito")
-    return personas.append(Persona(nombre, edad, dni))
+    personas.append(Persona(nombre, edad, dni))
+    return Persona(nombre, edad, dni)
 
-"""
-def eliminar_persona(nombre):
-    mostrar_todo(personas) # Mostramos quienes estan antes de borrar
+# Una funcion para eliminar a una persona de la lista
+def eliminar_persona(indice):
     for persona in personas:
-        if(persona == nombre):
-            del personas[persona]
-            print(f"Se ha eliminado a {persona[0]} con exito.")
-            return personas[persona]
+        if(indice == personas.index(persona)):
+            Persona.eliminar_persona(persona), personas.pop(indice) # Borramos el objeto y su referencia de la lista
+            print(f"Se ha eliminado a {persona.nombre} con exito.")
+            return persona
     print("¡No se ha encontrado ninguna persona con ese nombre!")
-"""
-
-def eliminar_persona(nombre):
-    pass
 
 # Una funcion para mostrar todas las personas almacenadas en una lista
 def mostrar_todo(ppss):
     if(len(ppss) != 0):
         for persona in ppss:
-            personas = Persona.mostrar_persona(persona)
-            print(personas)
-        return personas
-    print("  *Desierto*")
-    return 
+            index = ppss.index(persona)
+            print({index : [persona.nombre, persona.edad, persona.dni]})
+    else: print("  *Desierto*  ")
  
 if __name__ == "__main__":
     print("Bienvenido al buscador de personas, por favor escribe una de las opciones para seleccionarlas:")
@@ -132,8 +126,10 @@ if __name__ == "__main__":
                     agregar_persona(nombre, edad, dni)
                     break
             case "d":
-                print("Vas a borrar a una persona del registro.")
-                persona = str(input("¿Que persona vas a eliminar? Escribe su nombre: "))
+                print("Vas a borrar a una persona del registro." \
+                      "  Nombre | Edad | DNI  ")
+                mostrar_todo(personas)
+                persona = int(input("¿Que persona vas a eliminar? Escribe su indice: "))
                 
                 eliminar_persona(persona)
             case "e":
