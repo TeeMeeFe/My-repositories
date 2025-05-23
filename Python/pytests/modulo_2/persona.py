@@ -80,7 +80,7 @@ def mostrar_todo(ppss):
     if(len(ppss) != 0):
         for persona in ppss:
             index = ppss.index(persona)
-            print({index : [persona.nombre, persona.edad, persona.dni]})
+            print({index: Persona.mostrar_persona(persona)})
     else: print("  *Desierto*  ")
  
 if __name__ == "__main__":
