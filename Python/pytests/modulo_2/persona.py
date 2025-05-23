@@ -126,7 +126,7 @@ if __name__ == "__main__":
                     agregar_persona(nombre, edad, dni)
                     break
             case "d":
-                print("Vas a borrar a una persona del registro." \
+                print("Vas a borrar a una persona del registro.\n" \
                       "  Nombre | Edad | DNI  ")
                 mostrar_todo(personas)
                 persona = int(input("¿Que persona vas a eliminar? Escribe su indice: "))
