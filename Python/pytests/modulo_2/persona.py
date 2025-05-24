@@ -62,7 +62,7 @@ class Persona:
 
 # Una funcion para agregar a una persona a una lista
 def agregar_persona(nombre, edad, dni):
-    print(f"Se ha agregado una persona: {nombre}, edad: {edad}, DNI: {dni}, con exito")
+    print(f"Se ha agregado una persona: {nombre}, edad: {edad}, DNI: {dni}, con éxito")
     personas.append(Persona(nombre, edad, dni))
     return Persona(nombre, edad, dni)
 
@@ -71,9 +71,9 @@ def eliminar_persona(indice):
     for persona in personas:
         if(indice == personas.index(persona)):
             Persona.eliminar_persona(persona), personas.pop(indice) # Borramos el objeto y su referencia de la lista
-            print(f"Se ha eliminado a {persona.nombre} con exito.")
+            print(f"Se ha eliminado a {persona.nombre} con éxito.")
             return persona
-    print("¡No se ha encontrado ninguna persona con ese nombre!")
+    print("¡No se ha encontrado a ninguna persona con ese índice!")
 
 # Una funcion para mostrar todas las personas almacenadas en una lista
 def mostrar_todo(ppss):
@@ -81,7 +81,9 @@ def mostrar_todo(ppss):
         for persona in ppss:
             index = ppss.index(persona)
             print({index: Persona.mostrar_persona(persona)})
+            return True
     else: print("  *Desierto*  ")
+    return False
  
 if __name__ == "__main__":
     print("Bienvenido al buscador de personas, por favor escribe una de las opciones para seleccionarlas:")
@@ -110,7 +112,7 @@ if __name__ == "__main__":
                         try:
                             edad = int(edad)
                         except:
-                            print("La edad que ingresaste no es un numero, intentalo de nuevo.")
+                            print("La edad que ingresaste no es un número, intentalo de nuevo.")
                             continue
 
                     if(dni == ""):
@@ -120,23 +122,55 @@ if __name__ == "__main__":
                         try:
                             dni = int(dni)
                         except:
-                            print("El DNI que ingresaste no es un numero")
+                            print("El DNI que ingresaste no es un número.")
                             continue   
 
                     agregar_persona(nombre, edad, dni)
                     break
             case "d":
                 print("Vas a borrar a una persona del registro.\n" \
-                      "  Nombre | Edad | DNI  ")
-                mostrar_todo(personas)
-                persona = int(input("¿Que persona vas a eliminar? Escribe su indice: "))
-                
-                eliminar_persona(persona)
+                      "I | Nombre | Edad | DNI  ")
+                m = mostrar_todo(personas)
+                if(m): 
+                    persona = int(input("¿Que persona vas a eliminar? Escribe su índice: "))
+                    eliminar_persona(persona)
+                else: print("No se encuentra ninguna persona para borrar.")
             case "e":
-                pass
+                while True:
+                    print("Vas a editar los datos de una persona. \n" \
+                          "I | Nombre | Edad | DNI  ")
+                    m = mostrar_todo(personas)
+                    if(m):
+                        indice = int(input("Selecciona un índice: "))
+                        for persona in personas:
+                            if(indice == personas.index(persona)):
+                                tipo = str(input("¿Que dato deseas editar? Selecciona entre N(nombre), E(edad) o D(DNI): ")).lower()
+                                match(tipo):
+                                    case "n":
+                                        nom = str(input(f"{indice}:{persona.nombre} es ahora: "))
+                                        persona.Nombre = nom
+                                        print(f"Nombre de persona en indice {indice} fue cambiada por {persona.nombre}")
+                                        break
+                                    case "e":
+                                        edad = int(input(f"{indice}:{persona.edad} tiene ahora: "))
+                                        persona.Edad = edad
+                                        print(f"Edad de persona en indice {indice} fue cambiada por {persona.edad}")
+                                        break
+                                    case "d":
+                                        dni = int(input(f"{indice}:{persona.dni} tiene ahora: "))
+                                        persona.Dni = dni
+                                        print(f"Edad de persona en indice {indice} fue cambiada por {persona.dni}")
+                                        break
+                            else: 
+                                print("¡No se ha encontrado a ninguna persona con ese índice!")
+                                break
+                        break
+                    else: 
+                        print("No se encuentra ninguna persona para editar.")
+                        break
             case "s":
                 print("Mostrar todo: \n" \
-                    "  Nombre | Edad | DNI  ")
+                      "I | Nombre | Edad | DNI  ")
                 mostrar_todo(personas)
             case "q":
                 print("Has salido del programa.")
@@ -144,6 +178,6 @@ if __name__ == "__main__":
             case _:
                 print("La opción seleccionada es incorrecta. Por favor escribe una de las siguientes: ")
                 continue
-        pass
+        continue
 
-print("Programa salido con exito.")
+print("Programa salido con éxito.")
