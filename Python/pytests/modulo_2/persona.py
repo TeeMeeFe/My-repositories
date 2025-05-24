@@ -46,11 +46,12 @@ class Persona:
         # Mostramos N/D si no hay datos
         __e = "N/D" if self.__edad == -1 else self.__edad
         __d = "N/D" if self.__dni == -1 else self.__dni
+        __m = self.esMayorDeEdad()
             
         if(__d != "N/D" and isinstance(__d, int)):
             __d = '{:,}'.format(self.__dni).replace(',', '.') # Formateamos dni para que tenga el punto cada mil 
 
-        return self.__nombre, __e, __d
+        return self.__nombre, __e, __d, __m
     
     def eliminar_persona(self):
         del self
@@ -81,7 +82,7 @@ def mostrar_todo(ppss):
         for persona in ppss:
             index = ppss.index(persona)
             print({index: Persona.mostrar_persona(persona)})
-            return True
+        return True
     else: print("  *Desierto*  ")
     return False
  
@@ -129,48 +130,48 @@ if __name__ == "__main__":
                     break
             case "d":
                 print("Vas a borrar a una persona del registro.\n" \
-                      "I | Nombre | Edad | DNI  ")
-                m = mostrar_todo(personas)
-                if(m): 
+                      " I | Nombre | Edad | DNI | Mayor")
+                if(mostrar_todo(personas)): 
                     persona = int(input("¿Que persona vas a eliminar? Escribe su índice: "))
                     eliminar_persona(persona)
                 else: print("No se encuentra ninguna persona para borrar.")
             case "e":
                 while True:
                     print("Vas a editar los datos de una persona. \n" \
-                          "I | Nombre | Edad | DNI  ")
-                    m = mostrar_todo(personas)
-                    if(m):
+                          " I | Nombre | Edad | DNI | Mayor")
+                    if(mostrar_todo(personas)):
                         indice = int(input("Selecciona un índice: "))
                         for persona in personas:
                             if(indice == personas.index(persona)):
-                                tipo = str(input("¿Que dato deseas editar? Selecciona entre N(nombre), E(edad) o D(DNI): ")).lower()
-                                match(tipo):
+                                match(str(input("¿Que dato deseas editar? Selecciona entre N(nombre), E(edad) o D(DNI); Q para salir: ")).lower()):
                                     case "n":
                                         nom = str(input(f"{indice}:{persona.nombre} es ahora: "))
                                         persona.Nombre = nom
                                         print(f"Nombre de persona en indice {indice} fue cambiada por {persona.nombre}")
-                                        break
+                                        continue
                                     case "e":
-                                        edad = int(input(f"{indice}:{persona.edad} tiene ahora: "))
+                                        edad = int(input(f"{indice}:{persona.nombre} tiene ahora: "))
                                         persona.Edad = edad
                                         print(f"Edad de persona en indice {indice} fue cambiada por {persona.edad}")
-                                        break
+                                        continue
                                     case "d":
-                                        dni = int(input(f"{indice}:{persona.dni} tiene ahora: "))
+                                        dni = int(input(f"El DNI en {indice}:{persona.nombre} tiene ahora: "))
                                         persona.Dni = dni
                                         print(f"Edad de persona en indice {indice} fue cambiada por {persona.dni}")
+                                        continue
+                                    case "q":
                                         break
-                            else: 
-                                print("¡No se ha encontrado a ninguna persona con ese índice!")
-                                break
-                        break
+                                    case _:
+                                        print("No has seleccionado una opción válida, intentalo de nuevo.")
+                                        continue
+                            #print("¡No se ha encontrado a ninguna persona con ese índice!")
+                        else: break
                     else: 
                         print("No se encuentra ninguna persona para editar.")
                         break
             case "s":
                 print("Mostrar todo: \n" \
-                      "I | Nombre | Edad | DNI  ")
+                      " I | Nombre | Edad | DNI | Mayor")
                 mostrar_todo(personas)
             case "q":
                 print("Has salido del programa.")
@@ -178,6 +179,6 @@ if __name__ == "__main__":
             case _:
                 print("La opción seleccionada es incorrecta. Por favor escribe una de las siguientes: ")
                 continue
-        continue
+        pass
 
 print("Programa salido con éxito.")
