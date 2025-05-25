@@ -141,30 +141,37 @@ if __name__ == "__main__":
                           " I | Nombre | Edad | DNI | Mayor")
                     if(mostrar_todo(personas)):
                         indice = int(input("Selecciona un índice: "))
-                        if(personas[indice]):
-                            persona = personas[indice]
-                            match(str(input("¿Que dato deseas editar? Selecciona entre N(nombre), E(edad) o D(DNI); Q para salir: ")).lower()):
-                                case "n":
-                                    nom = str(input(f"{indice}:{persona.nombre} es ahora: "))
-                                    persona.Nombre = nom
-                                    print(f"Nombre de persona en indice {indice} fue cambiada por {persona.nombre}")
-                                    continue
-                                case "e":
-                                    edad = int(input(f"{indice}:{persona.nombre} tiene ahora: "))
-                                    persona.Edad = edad
-                                    print(f"Edad de persona en indice {indice} fue cambiada por {persona.edad}")
-                                    continue
-                                case "d":
-                                    dni = int(input(f"El DNI en {indice}:{persona.nombre} tiene ahora: "))
-                                    persona.Dni = dni
-                                    print(f"Edad de persona en indice {indice} fue cambiada por {persona.dni}")
-                                    continue
-                                case "q":
-                                    break
-                                case _:
-                                    print("No has seleccionado una opción válida, intentalo de nuevo.")
-                                    continue
-                        else: print("¡No se ha encontrado a ninguna persona con ese índice!")
+                        try: 
+                            if(personas[indice]):
+                                persona = personas[indice]
+                                match(str(input("¿Que dato deseas editar? Selecciona entre N(nombre), E(edad) o D(DNI); Q para salir: ")).lower()):
+                                    case "n":
+                                        nom = str(input(f"{persona.nombre} es ahora: "))
+                                        persona.Nombre = nom
+                                        print(f"Nombre de persona en indice {indice} fue cambiada por {persona.nombre}")
+                                        continue
+                                    case "e":
+                                        edad = input(f"{persona.nombre} tiene ahora: ")
+                                        if(not isinstance(edad, int)): 
+                                            raise print("¡El dato de edad ingresado no es un número!") 
+                                        else:
+                                            persona.Edad = edad
+                                            print(f"Edad de persona en indice {indice} fue cambiada por {persona.edad}")
+                                            continue
+                                    case "d":
+                                        dni = input(f"El DNI en {persona.nombre} tiene ahora: ")
+                                        if(not isinstance(dni, int)): 
+                                            raise print("¡El dato de DNI ingresado no es un número!") 
+                                        else:
+                                            persona.Dni = dni
+                                            print(f"Edad de persona en indice {indice} fue cambiada por {persona.dni}")
+                                            continue
+                                    case "q":
+                                        break
+                                    case _:
+                                        print("No has seleccionado una opción válida, intentalo de nuevo.")
+                                        continue
+                        except: print("¡No se ha encontrado a ninguna persona con ese índice!") # Cambiar esto, siempre lo imprime ante un error y no creo que sea este...
                     else: 
                         print("No se encuentra ninguna persona para editar.")
                         break
