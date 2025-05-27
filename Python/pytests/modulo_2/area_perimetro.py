@@ -8,11 +8,15 @@ class Forma:
         pass
     def calcular_perimetro():
         pass
+    def mostrar_forma():
+        pass
 
 class Rectangulo(Forma):
     def __init__(self, alto, ancho):
         self.__ancho__ = ancho
         self.__alto__ = alto
+
+    tipo = "Rectangulo"
 
     def calcular_area(self):
         return self.__alto__ * self.__ancho__
@@ -20,10 +24,23 @@ class Rectangulo(Forma):
     def calcular_perimetro(self):
         return 2 * (self.__alto__ + self.__ancho__)
     
+    def mostrar_forma(self):
+        return self.tipo, self.__alto__, self.__ancho__
+    
 def agregar_forma(tipo, /, alto, ancho, lista):
     if(tipo == "Rect"): pass # Sin implementar
     print(f"Se ha creado un {tipo} de dimensiones alto:{alto} por ancho:{ancho}, con éxito.")
     return lista.append(Rectangulo(alto, ancho))
+
+def mostrar_todo(lista):
+    if(len(lista) != 0):
+        print("|  I  |  Tipo  |  Alto  |  Ancho  |  Área  |  Perímetro  |")
+        for forma in lista:
+            indice = lista.index(forma)
+            print(f"{indice, (Rectangulo.mostrar_forma(forma), Rectangulo.calcular_area(forma), Rectangulo.calcular_perimetro(forma))}")
+        return True
+    else: print("¡No se encontró ningun objeto en esta lista!")
+    return False
     
 if __name__ == "__main__":
     print("Bienvenido al calculador de área y perímetro. Por favor selecciona una de las siguientes opciones:\n")
@@ -50,7 +67,8 @@ if __name__ == "__main__":
             case "e":
                 pass
             case "s":
-                pass
+                print("Mostrando todos los objetos:")
+                mostrar_todo(objetos)
             case "q":
                 print("Estas saliendo del programa...")           
                 break
