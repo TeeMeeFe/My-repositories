@@ -66,7 +66,7 @@ if __name__ == "__main__":
                         print("¡El dato que ingresaste no es válido!")
                         continue
             case "e":
-                pass
+                pass # Sin implementar
             case "s":
                 print("Mostrando todos los objetos:")
                 mostrar_todo(objetos)
