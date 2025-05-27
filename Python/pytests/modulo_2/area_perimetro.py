@@ -34,10 +34,11 @@ def agregar_forma(tipo, /, alto, ancho, lista):
 
 def mostrar_todo(lista):
     if(len(lista) != 0):
-        print("|  I  |  Tipo  |  Alto  |  Ancho  |  Área  |  Perímetro  |")
+        print("|I|    Tipo    |Alto|Ancho|Área|Perímetro|")
         for forma in lista:
             indice = lista.index(forma)
-            print(f"{indice, (Rectangulo.mostrar_forma(forma), Rectangulo.calcular_area(forma), Rectangulo.calcular_perimetro(forma))}")
+            print(f"{[indice, Rectangulo.mostrar_forma(forma)[0], Rectangulo.mostrar_forma(forma)[1], Rectangulo.mostrar_forma(forma)[2], 
+                      Rectangulo.calcular_area(forma), Rectangulo.calcular_perimetro(forma)]}")
         return True
     else: print("¡No se encontró ningun objeto en esta lista!")
     return False
