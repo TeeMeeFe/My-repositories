@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My e-library</title>
+    <script defer src="src/script.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <div class="container">
+            <div class="header">
+                <ul>
+                    <li class="mlp-logo"><a href="">my library project</a></li>
+                    <li><a href="">link 1</a></li>
+                    <li><a href="">link 2</a></li>
+                    <li><a href="">link 3</a></li>
+                    <li><a href="">link 4</a></li>
+                </ul>
+            </div>
+            <div class="main-body">
+                <div class="book-container">
+                    <button type="button" class="book-adder card" id="book-adder-btn">
+                        <h1>⊕</h1>
+                        Click to add book
+                    </button>
+                    <dialog class="book-dialog" id="dialogs">
+                        <form method="dialog">
+                            <fieldset class="book-dialog">
+                                <legend>About the book</legend>
+                                <img class="book image" src="" alt="book image">
+                                <p class="book name">Name: <span></span></p>
+                                <p class="book author">Author: <span></span></p>
+                                <p class="book year">Year of Issue: <span></span></p>
+                                <p class="book description">Description: <span></span></p>
+                            </fieldset>
+                        </form>
+                        <div class="buttons">
+                            <button id="cancelBtn" value="cancel" formmethod="dialog">Close</button>
+                        </div>
+                    </dialog>
+                    <dialog class="book-add-dialog" id="dialogs">
+                        <form id="book-info" method="dialog">
+                            <fieldset>
+                                <legend>Add information about the book</legend>
+                                <div>
+                                    <label for="Name" aria-label="required"><span>Name of the book</span> 
+                                        <div><input type="text" name="name" id="Name" placeholder="e.g: The lord of the rings" required></div>
+                                    </label>
+                                    <label for="Author" aria-label="required"><span>Author</span> 
+                                        <div><input type="text" name="author" id="Author" placeholder="e.g: J. R. R. Tolkien" required></div>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label for="Year" aria-label="required"><span>Year of issue</span> 
+                                        <div><input type="number" name="yearOfIssue" id="Year Of Issue" placeholder="e.g: 1954" required></div>
+                                    </label>
+                                    <label for="Description"><span>Description</span>
+                                        <div><textarea name="description" id="Description"></textarea></div>
+                                    </label>
+                                </div>
+                                <div>Upload Image
+                                    <input type="file" name="image" accept="image/*">
+                                </div>
+                            </fieldset>
+                            <div class="buttons">
+                                <button id="cancelBtn" value="cancel" formmethod="dialog">Cancel</button>
+                                <button id="confirmBtn" type="submit" value="default">Submit</button>
+                            </div>
+                        </form>
+                    </dialog>
+                    <dialog class="book-remover-dialog" id="dialogs">
+                        <form id="book-remove-info" action="dialog">
+                            <fieldset id="book-remove-fieldset">
+                                <p class="book name">Are you sure you want to remove: <span></span></p>
+                                <div class="buttons">
+                                    <button id="cancelBtn" value="cancel" formmethod="dialog">Cancel</button>
+                                    <button id="confirmBtn" type="submit" value="default">Confirm</button>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </dialog>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <p>my library project</p>
+            <p>copyleft 2025 lololololol </p>
+        </div>
+    </main>
+</body>
+</html>
