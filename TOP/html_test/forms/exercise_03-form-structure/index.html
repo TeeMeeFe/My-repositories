@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Form structure: Task 1</title>
+    <style>
+      body {
+        background-color: #fff;
+        color: #333;
+        font: 1em / 1.4 Helvetica Neue, Helvetica, Arial, sans-serif;
+        padding: 1em;
+        margin: 0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+
+  <body>
+    <form>
+        <fieldset>
+            <legend>Personal Details</legend>
+            <div>
+                <label for="name">
+                    <span>Name:</span>
+                </label>
+                <div><input type="text" id="name" name="name"></div>
+            </div>
+            <div>
+                <label for="age">
+                    <span>Age:</span>
+                </label>
+                <div><input type="number" id="age" name="age"></div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Comment information</legend>
+            <label for="comment">
+                <span>Comment:</span>
+            </label>
+            <div><textarea name="comment" id="comment" rows="3"></textarea></div>
+            <label for="email">
+                <span>Email:</span>
+            </label>
+            <div><input type="email" id="email" name="email"></div>
+            <p><button type="submit">Submit</button></p>
+        </fieldset>
+    </form>
+  </body>
+
+</html>
