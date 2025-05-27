@@ -1,0 +1,66 @@
+/* General style reset rules */
+body {
+    background-color: #fff;
+    color: #333;
+    font: 1em / 1.4 Helvetica Neue, Helvetica, Arial, sans-serif;
+    padding: 1em;
+    margin: 0;
+  }
+
+* {
+    box-sizing: border-box;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+form {
+    max-width: 250px;
+    background-color: #ddd;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: auto;
+}
+
+form > * {
+    margin: 12px;
+}
+
+li > textarea {
+    resize: none;
+    width: 100%;
+}
+
+li > input {
+    width: 100%;
+}
+
+button {
+    margin-top: 16px;
+}
+
+/* Js manipulable selectors */
+.error {
+    padding: 4px;
+    width: 90.4%;
+
+    border: 1px solid #DF5959;
+    border-radius: 4px;
+    background-color: #CC4848;
+
+    font-size: inherit;
+    text-wrap: wrap;
+    color: #333;
+
+    visibility: hidden;
+}
+
+.error.active {
+    visibility: visible;
+}
+
+.invalid {
+    border: 2px dashed #DF5959;
+}

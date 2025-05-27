@@ -1,0 +1,460 @@
+@font-face {
+	font-family: "Norse";
+	src: url("./fonts/Norse-Bold.otf") ;
+
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* Generic normalize rules, go to line 209 for actual style rules */
+/*! modern-normalize v3.0.1 | MIT License | https://github.com/sindresorhus/modern-normalize */
+
+/**
+Use a better box model (opinionated).
+*/
+
+*,
+::before,
+::after {
+	box-sizing: border-box;
+}
+
+html {
+	/* Improve consistency of default fonts in all browsers. (https://github.com/sindresorhus/modern-normalize/issues/3) */
+	font-family:
+		system-ui,
+		'Segoe UI',
+		Roboto,
+		Helvetica,
+		Arial,
+		sans-serif,
+		'Apple Color Emoji',
+		'Segoe UI Emoji';
+	line-height: 1.15; /* 1. Correct the line height in all browsers. */
+	-webkit-text-size-adjust: 100%; /* 2. Prevent adjustments of font size after orientation changes in iOS. */
+	tab-size: 4; /* 3. Use a more readable tab size (opinionated). */
+}
+
+/*
+Sections
+========
+*/
+
+body {
+	margin: 0; /* Remove the margin in all browsers. */
+}
+
+/*
+Text-level semantics
+====================
+*/
+
+/**
+Add the correct font weight in Chrome and Safari.
+*/
+
+b,
+strong {
+	font-weight: bolder;
+}
+
+/**
+1. Improve consistency of default fonts in all browsers. (https://github.com/sindresorhus/modern-normalize/issues/3)
+2. Correct the odd 'em' font sizing in all browsers.
+*/
+
+code,
+kbd,
+samp,
+pre {
+	font-family:
+		ui-monospace,
+		SFMono-Regular,
+		Consolas,
+		'Liberation Mono',
+		Menlo,
+		monospace; /* 1 */
+	font-size: 1em; /* 2 */
+}
+
+/**
+Add the correct font size in all browsers.
+*/
+
+small {
+	font-size: 80%;
+}
+
+/**
+Prevent 'sub' and 'sup' elements from affecting the line height in all browsers.
+*/
+
+sub,
+sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sub {
+	bottom: -0.25em;
+}
+
+sup {
+	top: -0.5em;
+}
+
+/*
+Tabular data
+============
+*/
+
+/**
+Correct table border color inheritance in Chrome and Safari. (https://issues.chromium.org/issues/40615503, https://bugs.webkit.org/show_bug.cgi?id=195016)
+*/
+
+table {
+	border-color: currentcolor;
+}
+
+/*
+Forms
+=====
+*/
+
+/**
+1. Change the font styles in all browsers.
+2. Remove the margin in Firefox and Safari.
+*/
+
+button,
+input,
+optgroup,
+select,
+textarea {
+	font-family: inherit; /* 1 */
+	font-size: 100%; /* 1 */
+	line-height: 1.15; /* 1 */
+	margin: 0; /* 2 */
+}
+
+/**
+Correct the inability to style clickable types in iOS and Safari.
+*/
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+	appearance: button;
+	-webkit-appearance: button;
+}
+
+/**
+Remove the padding so developers are not caught out when they zero out 'fieldset' elements in all browsers.
+*/
+
+legend {
+	padding: 0;
+}
+
+/**
+Add the correct vertical alignment in Chrome and Firefox.
+*/
+
+progress {
+	vertical-align: baseline;
+}
+
+/**
+Correct the cursor style of increment and decrement buttons in Safari.
+*/
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+	height: auto;
+}
+
+/**
+1. Correct the odd appearance in Chrome and Safari.
+2. Correct the outline style in Safari.
+*/
+
+[type='search'] {
+	appearance: textfield;
+	-webkit-appearance: textfield; /* 1 */
+	outline-offset: -2px; /* 2 */
+}
+
+/**
+Remove the inner padding in Chrome and Safari on macOS.
+*/
+
+::-webkit-search-decoration {
+	-webkit-appearance: none;
+}
+
+/**
+1. Correct the inability to style clickable types in iOS and Safari.
+2. Change font properties to 'inherit' in Safari.
+*/
+
+::-webkit-file-upload-button {
+	-webkit-appearance: button; /* 1 */
+	font: inherit; /* 2 */
+}
+
+/*
+Interactive
+===========
+*/
+
+/*
+Add the correct display in Chrome and Safari.
+*/
+
+summary {
+	display: list-item;
+}
+
+/* Actual style rules */
+/* Custom style properties */
+:root {
+	--main-bg-color: #FFF;
+	--side-bg-color: #222;
+	--header-bg-color: #FAFAFA;
+	--border-color: #F0F0F0;
+	--alt-color: #FD8E32;
+	--link-color: #E4AB39;
+	--link-color-visited: #60FA60;
+	--button-shadow: #BBB;
+	--invalid-color: #DF4040;
+	--valid-color: #40DF40;
+}
+
+/* Generic styling */
+body {
+    background-color: var(--side-bg-color);
+}
+
+main {
+    display: flex;
+    width: 90%;
+    margin: auto;
+    background-color: var(--main-bg-color);
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+br {
+    padding-top: 1em;
+}
+
+button {
+	background-color: var(--alt-color);
+	color: var(--main-bg-color);
+	font-weight: 700;
+
+	border: 0;
+	border-radius: 1em;
+	box-shadow: 0 0 8px 1px var(--button-shadow);
+	padding: 0.8em 4em;
+}
+
+button:hover {
+	box-shadow: 0 0 10px 2px var(--alt-color);
+	cursor: pointer;
+}
+
+button:active {
+	box-shadow: 0 0 4px 1px var(--button-shadow);
+	color: var(--side-bg-color);
+}
+
+button:disabled {
+	background-color: var(--button-shadow);
+	pointer-events: none;
+}
+
+a,
+a:visited {
+	color: var(--link-color);
+}
+
+a:hover {
+	color: var(--link-color-visited);
+}
+
+/* More specific class and id attribute rules */
+.container {
+    padding: 2.2rem;
+}
+
+.main-container {
+	display: flex;
+	flex-direction: column;
+    flex: 1 1 80%;
+    width: 100%;
+    height: 150vh;
+}
+
+.header {
+    background-color: var(--header-bg-color);
+    border-bottom: 1px solid var(--border-color);
+    text-align: start;
+	align-content: end;
+	min-height: 50vh;
+}
+
+.background {
+    flex: 1 1 40%;
+    height: inherit;
+    border-right: 1px solid var(--border-color);
+	background: url(./img/annie-spratt-unsplash-compressed.png) repeat-y;
+}
+
+.sign-up {
+    padding: 1.2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sign-up h2 {
+    margin-top: 0;
+}
+
+.sign-up-form li,
+.sign-up-form > ul {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+.sign-up-form {
+    max-width: 800px;
+}
+
+.sign-up span {
+	min-height: 1rem;
+}
+
+.underlabel {
+	font-size: 0.8em;
+}
+
+.shadow {
+	height: 16px;
+	width: 100%;
+	background: linear-gradient(to bottom, var(--border-color), var(--main-bg-color));
+}
+
+.footer	{
+	display: inherit;
+	flex-direction: column;
+	flex-wrap: wrap;
+	height: 100%;
+	flex: 1;
+}
+
+/* Create a div wrapper for the button when its disabled */
+.button-container {
+	width: fit-content;
+}
+
+.button-container[disabled],
+button:disabled {
+	cursor: not-allowed; 
+}
+
+.side-container {
+	position: relative;
+	display: inherit;
+}
+
+.sidebar-container {
+	display: flex;
+	position: absolute;
+	top: 50%;
+
+	width: 100%;
+	height: fit-content;
+
+	background-color: var(--side-bg-color);
+	opacity: 75%;
+
+	align-items: center;
+	justify-content: center;
+
+	font-family: "Norse", sans-serif;
+	font: 300;
+	font-size: 4rem;
+}
+
+.sidebar-container::after {
+	color: #FFF;
+	content: "odin";
+}
+
+.sidebar-container .logo {
+	max-width: 25%;
+	max-height: 100%;
+	background: transparent;
+}
+
+.side-footer {
+	position: absolute;
+	bottom: 0;
+
+	width: 100%;
+
+	text-align: center;
+	color: #FFF;
+	background: #222222C0;
+}
+
+.side-footer .link-author::before {
+	content: "Annie Spratt";
+}
+
+/* Mobile responsiveness */
+@media (max-width: 700px) {
+	:root {
+		font-size: 12px;
+	}
+
+	main {
+		width: 100%;
+	}
+
+	.header {
+		min-height: fit-content;
+	}
+
+	.header,
+	.main-container,
+	.footer {
+		height: fit-content;
+	}
+	
+	.container h2 {
+		font-size: 1.2rem;
+	}
+
+	.side-container {
+		display: none;
+	}
+}	
+
+@media (min-width: 443px) {
+
+}
