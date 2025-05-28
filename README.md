@@ -8,7 +8,7 @@
 > All the files uploaded to this repository are licensed under the `GNU GENERAL PUBLIC LICENSE` unless another LICENSE file exists within a directory, whose __LICENSE__ is instead extended to all its files, folders and sub-folders.
 
 
-[__ES__] Mi repositorio publico con todos los públicos repos que he hecho hasta ahora.
+[__ES__] Mi repositorio publico con todos los repos públicos que he hecho hasta ahora.
 
 * `TOP` contiene los archivos relacionados con los projectos y ejercicios que fueron diseñados desde [The project Odin](https://github.com/TheOdinProject), siguiendo su currícula de código abierto.
 * `ISPC` contiene los archivos relacionados con el [Instituto Superior Politécnico de Cordoba](https://www.ispc.edu.ar/), siguiendo las asignaciones propuestas por la tecnicatura: [Tecnicatura Superior en Desarrollo Web y Aplicaciones Digitales](https://www.ispc.edu.ar/tecnicatura-web/)
