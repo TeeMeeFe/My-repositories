@@ -140,8 +140,8 @@ if __name__ == "__main__":
                     print("Vas a editar los datos de una persona. \n" \
                           " I | Nombre | Edad | DNI | Mayor")
                     if(mostrar_todo(personas)):
-                        indice = int(input("Selecciona un índice: "))
-                        try: 
+                        try:
+                            indice = int(input("Selecciona un índice: "))
                             if(personas[indice]):
                                 persona = personas[indice]
                                 match(str(input("¿Que dato deseas editar? Selecciona entre N(nombre), E(edad) o D(DNI); Q para salir: ")).lower()):
@@ -171,7 +171,12 @@ if __name__ == "__main__":
                                     case _:
                                         print("No has seleccionado una opción válida, intentalo de nuevo.")
                                         continue
-                        except: print("¡No se ha encontrado a ninguna persona con ese índice!") # Cambiar esto, siempre lo imprime ante un error y no creo que sea este...
+                        except Exception as e:
+                            if IndexError:
+                                print("¡No se ha encontrado a ninguna persona con ese índice!")
+                            else:
+                                print(e)
+                            break
                     else: 
                         print("No se encuentra ninguna persona para editar.")
                         break
