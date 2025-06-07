@@ -52,39 +52,47 @@ class Producto:
             return False
     
     @classmethod
-    def actulizar_producto(cls):
+    def actualizar_producto(cls):
         print("Actualizar stock de productos")
-        if (cls.mostrar_todos() != None and print(cls.mostrar_todos())) : 
+        if (cls.mostrar_todos() != None): 
+            print(cls.mostrar_todos())
             try:
-                prod = int(input("\n¿Qué producto vas a actualizar? Selecciona su índice: "))
-                if(prod):
-                    while True:
+                while True:
+                    prod = cls.obtener_por_id(int(input("\n¿Qué producto vas a actualizar? Selecciona su índice: ")))
+                    if (prod):
                         cambio = str(input("\n¿Qué deseas cambiar? Presiona las siguientes teclas:" \
-                                        "\n[S] para actualizar stock" \
-                                        "\n[P] para actualizar precio" \
-                                        "\n[Q] para salir de este programa")).lower()
-                        match(cambio):
+                                           "\n[S] para actualizar stock" \
+                                           "\n[P] para actualizar precio" \
+                                           "\n[Q] para salir de este programa")).lower()
+                        match (cambio):
                             case "s":
                                 nuevo_stock = int(input(f"Nuevo stock para '{cls._nombre}': "))
                                 cls._stock = nuevo_stock
                                 print(f"\n¡El stock para '{cls._nombre}' ha sido actualizado con éxito!" /
-                                       "\nNuevo stock: {cls._stock}")
+                                    "\nNuevo stock: {cls._stock}")
                                 continue
                             case "p":
                                 nuevo_precio = int(input(f"Nuevo precio para '{cls._nombre}: '"))
                                 cls._precio = nuevo_precio
                                 print(f"¡El precio para {cls._nombre} ha sido cambiado con éxito!" /
-                                       "\nNuevo precio: {cls._precio}")
+                                    "\nNuevo precio: {cls._precio}")
                                 continue
                             case "q":
                                 break
                             case _:
                                 raise ValueError
-                        pass
             except ValueError:
                 print(f"[Error]: Has ingresado un valor que es inválido, intentalo de nuevo.")
             except Exception as e:
                 print(f"[Error]: Hubo un error: {e}")
+
+    @classmethod
+    def eliminar_producto(cls, id_producto):
+        producto = cls.obtener_por_id(id_producto)
+        if (producto):
+            cls._productos.remove(producto)
+            return True
+        return False
 
 if __name__ == "__main__":
 
