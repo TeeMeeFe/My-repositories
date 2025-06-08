@@ -5,7 +5,6 @@ class Menu:
         resultado = []
         print("\nMostrando inventario:")
         if (len(Producto._productos) != 0):
-            print(Producto.mostrar_todos())
             for p in Producto.mostrar_todos():
                 resultado.append({
                     "Índice": p["Índice"],
@@ -31,7 +30,25 @@ class Menu:
         else: print("¡El catalogo de productos está desierto!")
 
     def eliminar_producto():
-        pass
+        print("\nEstas por eliminar un producto:\n")
+        if (len(Producto._productos) != 0):
+            print(Producto.mostrar_todos())
+            prod = int(input("¿Qué producto deseas eliminar? Selecciona su índice: "))
+            if (Producto.obtener_por_id(prod)):
+                while True:
+                    confirmacion = str(input(f"Estas por eliminar '{Producto.obtener_por_id(prod)._nombre}'. ¿Estás seguro? Presiona (s/n) para confirmar: "))
+                    if (confirmacion == "s"):
+                        if (Producto.eliminar_producto(prod)): 
+                            print("El producto se ha eliminado con éxito.")
+                        else: print("Ocurrió un error al eliminar el producto.")
+                        break
+                    elif (confirmacion == "n"):
+                        break
+                    else: 
+                        print("¡Debes elegir 's' o 'n' para continuar!")
+                        continue
+            else: print("¡Ese producto no existe!")
+        else: print("¡El catalogo de productos está desierto!")
 
     def ver_menu():
         print("\n[1] Ver inventario\n" \
