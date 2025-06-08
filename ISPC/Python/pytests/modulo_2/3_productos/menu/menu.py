@@ -5,6 +5,7 @@ class Menu:
         resultado = []
         print("\nMostrando inventario:")
         if (len(Producto._productos) != 0):
+            print(Producto.mostrar_todos())
             for p in Producto.mostrar_todos():
                 resultado.append({
                     "Índice": p["Índice"],
@@ -18,7 +19,7 @@ class Menu:
         pass
 
     def agregar_producto():
-        print("\nEstas por agregar un producto:")
+        print("\nEstas por agregar un producto:\n")
         nom = input("Nombre: ")
         pre = float(input("Precio: "))
         Producto.agregar_producto(nom, pre)
