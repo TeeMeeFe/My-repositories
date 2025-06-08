@@ -19,19 +19,16 @@ class Producto:
     # Metodos clase
     @classmethod
     def mostrar_todos(cls):
-        if(len(cls._productos) != 0):
-            return [
-                {
-                "Índice": u._id_producto,
-                "Nombre": u._nombre,
-                "Precio": u._precio,
-                "Stock" : u._stock
-                }
-                for u in cls._productos
-            ]
-        print("¡El catalogo de productos está desierto!")
-        return None
-
+        return [
+            {
+            "Índice": u._id_producto,
+            "Nombre": u._nombre,
+            "Precio": u._precio,
+            "Stock" : u._stock
+            }
+            for u in cls._productos
+        ]
+    
     @classmethod
     def obtener_por_id(cls, id_prod):
         for u in cls._productos:
@@ -48,13 +45,13 @@ class Producto:
             print(f"El producto {nom} fue agregado con éxito en Índice {cls._id_producto}")
             return True
         except Exception as e:
-            print(f"[Error]: {e}")
+            print(f"[Error] Hubo un error: {e}")
             return False
     
     @classmethod
     def actualizar_producto(cls):
         print("Actualizar stock de productos")
-        if (cls.mostrar_todos() != None): 
+        if (len(cls._productos) != 0): 
             print(cls.mostrar_todos())
             try:
                 while True:
@@ -84,7 +81,8 @@ class Producto:
             except ValueError:
                 print(f"[Error]: Has ingresado un valor que es inválido, intentalo de nuevo.")
             except Exception as e:
-                print(f"[Error]: Hubo un error: {e}")
+                print(f"[Error] Hubo un error: {e}")
+        else: print("¡El catalogo de productos está desierto!")
 
     @classmethod
     def eliminar_producto(cls, id_producto):
