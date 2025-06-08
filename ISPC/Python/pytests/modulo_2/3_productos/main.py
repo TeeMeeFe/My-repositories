@@ -12,7 +12,7 @@ from menu.menu import Menu
 
 def main():
     print("Bienvenido al catalogo de productos!\n" \
-          "====================================\n")
+          "====================================")
     while True:
         try:
             Menu.ver_menu()

@@ -2,16 +2,16 @@ from models.productos import Producto
 
 class Menu:
     def ver_inventario():
-        resultado = []
+        resultado = [0, 0]
         print("\nMostrando inventario:")
         if (len(Producto._productos) != 0):
             for p in Producto.obtener_todos():
-                resultado.append({
-                    "Índice": p["Índice"],
-                    "Nombre": p["Nombre"],
-                    "Precio": p["Precio"],
-                    "Stock" : p["Stock"]
-                }), print(resultado)
+                resultado[0] += p["Stock"]
+                resultado[1] += p["Precio"] * p["Stock"]
+                print(p)
+            print("====================================\n" \
+                 f"STOCK TOTAL: {resultado[0]} || VALOR INVENTARIO: {resultado[1]}")
+
         else: print("¡El catalogo de productos está desierto!")
 
     def ver_producto():
@@ -51,7 +51,7 @@ class Menu:
         else: print("¡El catalogo de productos está desierto!")
 
     def ver_menu():
-        print("[1] Ver inventario\n" \
+        print("\n[1] Ver inventario\n" \
               "[2] Ver producto\n" \
               "[3] Agregar producto\n" \
               "[4] Cambiar datos de producto\n" \
