@@ -2,11 +2,38 @@ from models.productos import Producto
 
 class Menu:
     def ver_inventario():
+        resultado = []
         print("\nMostrando inventario:")
-        Producto.mostrar_todos()
+        if (len(Producto._productos) != 0):
+            for p in Producto.mostrar_todos():
+                resultado.append({
+                    "Índice": p["Índice"],
+                    "Nombre": p["Nombre"],
+                    "Precio": p["Precio"],
+                    "Stock" : p["Stock"]
+                }), print(resultado)
+        else: print("¡El catalogo de productos está desierto!")
+
+    def ver_producto():
+        pass
+
+    def agregar_producto():
+        print("\nEstas por agregar un producto:")
+        nom = input("Nombre: ")
+        pre = float(input("Precio: "))
+        Producto.agregar_producto(nom, pre)
+
+    def actualizar_producto():
+        print("\nEstas por actualizar un producto:\n")
+        if (len(Producto._productos) != 0): 
+            Producto.actualizar_productos()
+        else: print("¡El catalogo de productos está desierto!")
+
+    def eliminar_producto():
+        pass
 
     def ver_menu():
-        print("[1] Ver inventario\n" \
+        print("\n[1] Ver inventario\n" \
               "[2] Ver producto\n" \
               "[3] Agregar producto\n" \
               "[4] Cambiar datos de producto\n" \

@@ -12,7 +12,7 @@ from menu.menu import Menu
 
 def main():
     print("Bienvenido al catalogo de productos!\n" \
-              "====================================\n")
+          "====================================\n")
     while True:
         try:
             Menu.ver_menu()
@@ -23,10 +23,18 @@ def main():
                     Menu.ver_inventario()
                     continue
                 case 2:
-                    break
+                    Menu.ver_producto()
+                    continue
                 case 3:
-                    break
+                    Menu.agregar_producto()
+                    continue
                 case 4:
+                    Menu.actualizar_producto()
+                    continue
+                case 5:
+                    Menu.eliminar_producto()
+                    continue
+                case 9:
                     break
                 case _:
                     raise ValueError
