@@ -10,7 +10,7 @@ class Producto:
 
     # Metodos clase
     @classmethod
-    def mostrar_todos(cls):
+    def obtener_todos(cls):
         return [
             {
             "Índice": u._indice,
@@ -32,7 +32,7 @@ class Producto:
     def agregar_producto(cls, nom, pre):
         try:
             cls._id_producto += 1
-            nuevo_producto = (Producto(cls._id_producto, nom, pre))
+            nuevo_producto = Producto(cls._id_producto, nom, pre)
             cls._productos.append(nuevo_producto)
             print(f"El producto {nom} fue agregado con éxito en Índice {cls._id_producto}")
             return True
@@ -44,7 +44,7 @@ class Producto:
     def actualizar_productos(cls):
         while True:
             try:
-                print(cls.mostrar_todos())
+                print(cls.obtener_todos())
                 prod = cls.obtener_por_id(int(input("¿Qué producto vas a actualizar? Selecciona su índice: ")))
                 if (prod):
                     cambio = str(input(f"\n¿Qué deseas cambiar de '{prod._nombre}'? Presiona las siguientes teclas:" \
