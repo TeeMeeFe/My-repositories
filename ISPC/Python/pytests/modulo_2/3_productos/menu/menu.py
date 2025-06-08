@@ -15,6 +15,7 @@ class Menu:
         else: print("¡El catalogo de productos está desierto!")
 
     def ver_producto():
+        print("Sin implementar.")
         pass
 
     def agregar_producto():

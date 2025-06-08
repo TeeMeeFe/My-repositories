@@ -66,7 +66,7 @@ class Producto:
                                   f"\nNuevo stock: {prod._stock}")
                             continue
                         case "p":
-                            nuevo_precio = int(input(f"Nuevo precio para '{prod._nombre}: '"))
+                            nuevo_precio = float(input(f"Nuevo precio para '{prod._nombre}: '"))
                             prod._precio = nuevo_precio
                             print(f"¡El precio para {prod._nombre} ha sido cambiado con éxito!" \
                                   f"\nNuevo precio: {prod._precio}")

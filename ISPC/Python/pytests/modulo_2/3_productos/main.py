@@ -7,7 +7,6 @@ que permita al usuario: 1- actualizar el stock y 2- calcular inventario hasta qu
 decida detenerse. Al finalizar deberá mostrar los datos del producto, stock e
 inventario final.
 """
-import models.productos 
 from menu.menu import Menu
 
 def main():
