@@ -11,7 +11,26 @@ mostrar los datos de la cuenta y el saldo.
 from menu.menu import Menu
 
 def main():
-    pass
+    print("Bienvenido al nuestro cajero automatico\n" \
+          "=======================================\n")
+    while True:
+        Menu.ver_menu()
+        opcion = int(input("Opcion: "))
+
+        match(opcion):
+            case 1:
+                pass
+            case 2:
+                pass
+            case 3:
+                pass
+            case 4:
+                break
+            case _:
+                print("Opcion incorrecta, intentalo de nuevo")
+                continue
 
 if __name__ == "__main__":
     main()
+
+print("Saliendo del sistema.")
