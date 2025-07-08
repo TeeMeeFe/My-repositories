@@ -1,7 +1,13 @@
 // Module pattern
+// Mocking our document object from browsers
+const documentMock = (() => ({
+    querySelector : (selector) => ({
+        innerHTML: null,
+    }),
+}))();
 
 //const module = (function () {})();
-const Formatter = (function() {
+const Formatter = (function(doc) {
     console.log("Start");
     const log = (message) => console.log(`[${Date.now()}] Logger: ${message}`);
     const timesRun = [];
@@ -14,14 +20,20 @@ const Formatter = (function() {
         setTimesRun();
         return text.toUpperCase();
     };
+    const writeToDOM = (selector, message) => {
+        if(!!doc && "querySelector" in doc) {
+            doc.querySelector(selector).innerHTML = message;
+        }
+    };
     
     return {
         makeUppercase,
+        writeToDOM,
         timesRun,
     };
-})();
+})(document || documentMock);
 
-console.log(Formatter.makeUppercase("Hello"));
+/*console.log(Formatter.makeUppercase("Hello"));
 console.log(Formatter.makeUppercase("Tomek"));
 console.log(Formatter.makeUppercase("linus"));
-console.log(Formatter.timesRun.length);
+console.log(Formatter.timesRun.length);*/
