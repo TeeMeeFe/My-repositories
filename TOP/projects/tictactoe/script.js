@@ -91,7 +91,7 @@ function gameController() {
    
     return {
         getActivePlayer,
-        changeTurn,
         playRound,
+        getBoard : board.getBoard(),
     };
 }
