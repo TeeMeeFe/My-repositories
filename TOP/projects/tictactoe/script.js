@@ -13,15 +13,23 @@ function gameBoard() {
     
     // A method to get the status of the board
     const getBoard = () => board;
-
+    // A method to fill our cells
     const fillCell = (row, column, player) => {
         // Look for all the cells that are not filled yet
         const availableCells = board.filter((row) => row[column].getValue() === "").map((row) => row[column]);
         // If no cell is available, return early
         if(!availableCells.length) return;
+        // If that cell is occupied, escape early
+        if(board[row][column].getValue !== "") return;
         // Otherwise fill the cell with the player's symbol
         board[row][column].addSymbol(player);
     }
+    // Print in console our board
+    const printBoard = () => {
+        console.log(board.map((row) => row.map((cell) => cell.getValue())));
+    } 
+
+    return { getBoard, fillCell, printBoard }
 }
 
 function cell() {
@@ -36,7 +44,7 @@ function cell() {
     const getValue = () => value;
 
     return {
-        addToken,
+        addSymbol,
         getValue,
     };
 }
@@ -61,4 +69,6 @@ function getPlayers() {
 function gameController() {
     const player = getPlayers();
     const board = gameBoard();
+
+    
 }
