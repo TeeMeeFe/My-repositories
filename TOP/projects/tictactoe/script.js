@@ -20,8 +20,10 @@ function gameBoard() {
             console.log("The specified cell is out of bounds!");
             return false;
         };
-        // Look for all the cells that are not filled yet
-        const availableCells = board.filter((row) => row[column].getValue() === null).map((row) => row[column]);
+        // Look for all the cells that are not filled yet(or are nullish)
+        const availableCells = board
+            .filter(row => row.some(cell => cell.getValue() === null))
+            .map(row => row.filter(cell => cell.getValue() === null));
         // If no cell is available, return early
         if(!availableCells.length) {
             console.log("No cells are available anymore, game over?")
@@ -39,7 +41,10 @@ function gameBoard() {
     }
     // Print in console our board
     const printBoard = () => {
-        console.log(board.map((row) => row.map((cell) => cell.getValue())));
+        const arrayBoard = board.map((row) => row.map((cell) => cell.getValue()));
+        arrayBoard.forEach(row => {
+            console.log(...row);
+        })
     } 
 
     return { getBoard, fillCell, printBoard }
@@ -88,7 +93,7 @@ function gameController() {
     const getActivePlayer = () => activePlayer;
     // A method to print the board
     const printNewRound = () => {
-        board.printBoard;
+        board.printBoard();
         console.log(`It's ${activePlayer.name} turn now.`);
     };
     // A method to play the round
@@ -102,8 +107,8 @@ function gameController() {
    
     return {
         getActivePlayer,
-        playRound,
         getBoard : board.getBoard(),
+        playRound,
     };
 }
 
