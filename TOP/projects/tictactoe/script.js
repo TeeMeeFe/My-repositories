@@ -39,7 +39,6 @@ function cell() {
     const addSymbol = (player) => {
         value = player;
     };
-
     // Retrieve the token 
     const getValue = () => value;
 
@@ -70,5 +69,29 @@ function gameController() {
     const player = getPlayers();
     const board = gameBoard();
 
-    
+    let activePlayer = player.playerOne;
+
+    // A method to switch turns
+    const changeTurn = () => activePlayer = player.playerOne ? player.playerTwo : player.playerOne;
+    // A method to get who's currently playing
+    const getActivePlayer = () => activePlayer;
+    // A method to print the board
+    const printNewRound = () => {
+        board.printBoard;
+        console.log(`It's ${activePlayer.name} turn now.`);
+    };
+    // A method to play the round
+    const playRound = (row, column) => {
+        console.log(`Filling = Row: ${row}, Col: ${column}, with ${getActivePlayer().symbol} (${getActivePlayer().name})`);
+        board.fillCell(row, column, getActivePlayer().symbol);
+
+        changeTurn();
+        printNewRound();
+    };
+   
+    return {
+        getActivePlayer,
+        changeTurn,
+        playRound,
+    };
 }
