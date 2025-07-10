@@ -15,14 +15,27 @@ function gameBoard() {
     const getBoard = () => board;
     // A method to fill our cells
     const fillCell = (row, column, player) => {
+        // Check if the row or column is within bounds
+        if(row >= rows || column >= columns) {
+            console.log("The specified cell is out of bounds!");
+            return false;
+        };
         // Look for all the cells that are not filled yet
-        const availableCells = board.filter((row) => row[column].getValue() === "").map((row) => row[column]);
+        const availableCells = board.filter((row) => row[column].getValue() === null).map((row) => row[column]);
         // If no cell is available, return early
-        if(!availableCells.length) return;
+        if(!availableCells.length) {
+            console.log("No cells are available anymore, game over?")
+            return false;
+        };
         // If that cell is occupied, escape early
-        if(board[row][column].getValue !== "") return;
+        if(board[row][column].getValue() !== null) {
+            console.log("That cell is already filled! Try again...")
+            return false;
+        }
         // Otherwise fill the cell with the player's symbol
         board[row][column].addSymbol(player);
+
+        return true;
     }
     // Print in console our board
     const printBoard = () => {
@@ -33,12 +46,10 @@ function gameBoard() {
 }
 
 function cell() {
-    let value = "";
+    let value = null;
 
     // Take a valid player to populate our symbol
-    const addSymbol = (player) => {
-        value = player;
-    };
+    const addSymbol = (player) => value = player;
     // Retrieve the token 
     const getValue = () => value;
 
@@ -82,11 +93,11 @@ function gameController() {
     };
     // A method to play the round
     const playRound = (row, column) => {
-        console.log(`Filling = Row: ${row}, Col: ${column}, with ${getActivePlayer().symbol} (${getActivePlayer().name})`);
-        board.fillCell(row, column, getActivePlayer().symbol);
-
-        changeTurn();
-        printNewRound();
+        if(board.fillCell(row, column, getActivePlayer().symbol)) {
+            console.log(`Filling = Row: ${row}, Col: ${column}, with ${getActivePlayer().symbol} (${getActivePlayer().name})`);
+            changeTurn();
+            printNewRound();
+        }
     };
    
     return {
