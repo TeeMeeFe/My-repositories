@@ -5,7 +5,7 @@ function gameBoard() {
 
     // Create a 2d array, populating each row and column with a cell we create
     for(let i = 0; i < rows; i++) {
-        board[i] = rows;
+        board[i] = [];
         for(let j = 0; j < columns; j++) {
             board[i].push(cell());
         }
@@ -72,7 +72,7 @@ function gameController() {
     let activePlayer = player.playerOne;
 
     // A method to switch turns
-    const changeTurn = () => activePlayer = player.playerOne ? player.playerTwo : player.playerOne;
+    const changeTurn = () => activePlayer = activePlayer === player.playerOne ? player.playerTwo : player.playerOne;
     // A method to get who's currently playing
     const getActivePlayer = () => activePlayer;
     // A method to print the board
@@ -95,3 +95,6 @@ function gameController() {
         getBoard : board.getBoard(),
     };
 }
+
+console.log("Script loaded successfully...");
+const game = gameController();
