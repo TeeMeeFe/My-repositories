@@ -1,0 +1,67 @@
+html {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-family: 'Courier New', Courier, monospace;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #77AAEF;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2em;
+}
+
+.main-menu {
+    display: flex;
+    height: 50%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.input-container {
+    display: flex;
+    margin: 1em;
+}
+
+.input-container .symbol-label {
+    padding: 0 10px 0 10px;
+}
+
+div fieldset {
+    padding-top: 1em;
+}
+
+.input-container label {
+    padding-right: 1em;
+}
+
+.symbol-label label,
+.symbol-row fieldset {
+    float: left;
+}
+
+fieldset.symbol-row {
+    border: none;
+    padding: 0;
+    margin: 1em 0;
+}
+
+#playerOne,
+#playerTwo {
+    margin: 1.5em;
+}
+
+button.play-game {
+    max-width: fit-content;
+    font-size: 2em;
+}
+
+.ingame-menu {
+    display: none;
+}
+

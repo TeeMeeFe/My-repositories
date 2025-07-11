@@ -8,6 +8,55 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    
+    <header>
+        <h1>Tic Tac Toe: the game</h1>
+        <h3>Made by yours truly</h3>
+    </header>
+    <main>
+        <div class="main-menu">
+            <div class="input-container">
+                <div id="playerOne">
+                    <fieldset>
+                        <legend>Player One</legend>
+                        <label for="player1">Name:</label>
+                        <input type="text" id="name" name="player1-name" placeholder="Player One">
+                        <fieldset class="symbol-row">
+                            Symbol:
+                            <label for="player1" class="symbol-label">X</label>
+                            <input type="radio" id="symbol-type-1" name="symbol-player1" value="X" checked>
+                            <label for="player1" class="symbol-label">O</label>
+                            <input type="radio" id="symbol-type-2" name="symbol-player1" value="O">
+                            <label for="player1" class="symbol-label">-</label>
+                            <input type="radio" id="symbol-type-3" name="symbol-player1" value="-">
+                            <label for="player1" class="symbol-label">+</label>
+                            <input type="radio" id="symbol-type-4" name="symbol-player1" value="+">
+                        </fieldset>
+                    </fieldset>
+                </div>
+                <div id="playerTwo">
+                    <fieldset>
+                        <legend>Player Two</legend>
+                        <label for="player2">Name:</label>
+                        <input type="text" id="name" name="player2-name" placeholder="Player Two">
+                        <fieldset class="symbol-row">
+                            Symbol:
+                            <label for="player2" class="symbol-label">X</label>
+                            <input type="radio" id="symbol-type-1" name="symbol-player2" value="X">
+                            <label for="player2" class="symbol-label">O</label>
+                            <input type="radio" id="symbol-type-2" name="symbol-player2" value="O" checked>
+                            <label for="player2" class="symbol-label">-</label>
+                            <input type="radio" id="symbol-type-3" name="symbol-player2" value="-">
+                            <label for="player2" class="symbol-label">+</label>
+                            <input type="radio" id="symbol-type-4" name="symbol-player2" value="+">
+                        </fieldset>
+                    </fieldset>
+                </div>
+            </div>
+            <button class="play-game">Game!</button>
+        </div>
+        <div class="ingame-menu">
+
+        </div>
+    </main>
 </body>
 </html>
