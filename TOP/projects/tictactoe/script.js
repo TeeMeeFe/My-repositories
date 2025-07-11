@@ -26,7 +26,7 @@ function gameBoard() {
             .map(row => row.filter(cell => cell.getValue() === null));
         // If no cell is available, return early
         if(!availableCells.length) {
-            console.log("No cells are available anymore, game over?")
+            console.log("No cells are available anymore, game over!")
             return false;
         };
         // If that cell is occupied, escape early
@@ -85,6 +85,7 @@ function gameController() {
     const player = getPlayers();
     const board = gameBoard();
 
+    let winner;
     let activePlayer = player.playerOne;
 
     // A method to switch turns
@@ -100,11 +101,20 @@ function gameController() {
     const playRound = (row, column) => {
         const player = getActivePlayer();
 
+        // Bail early if a winner was chosen!
+        if(winner !== undefined) { 
+            console.log(`${winner.name} was declared the winner, game over!`); 
+            return; 
+        }
+        
+        // Otherwise fill the cell
         if(board.fillCell(row, column, player.symbol)) {
             console.log(`Filling = Row: ${row}, Col: ${column}, with ${player.symbol} (${player.name})`);
             changeTurn();
             if(checkBoard(player)) {
-                console.log(`Tic Tac Toe: ${player.name} has won the game!`)
+                winner = player;
+                board.printBoard(); // A little of redundancy for my sins wont hurt anyone
+                console.log(`Tic Tac Toe: ${player.name} has won the game!`);
                 return;
             }
             printNewRound();
@@ -112,7 +122,7 @@ function gameController() {
     };
     // A method to check if multiple elements of the same symbol exist on a line or diagonal
     const checkBoard = (player) => {
-        const brd = board.getBoard()
+        const brd = board.getBoard();
         const rows = brd.length;
         const cols = brd[0].length;
         const symbol = player.symbol;
