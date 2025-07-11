@@ -98,17 +98,89 @@ function gameController() {
     };
     // A method to play the round
     const playRound = (row, column) => {
-        if(board.fillCell(row, column, getActivePlayer().symbol)) {
-            console.log(`Filling = Row: ${row}, Col: ${column}, with ${getActivePlayer().symbol} (${getActivePlayer().name})`);
+        const player = getActivePlayer();
+
+        if(board.fillCell(row, column, player.symbol)) {
+            console.log(`Filling = Row: ${row}, Col: ${column}, with ${player.symbol} (${player.name})`);
             changeTurn();
+            if(checkBoard(player)) {
+                console.log(`Tic Tac Toe: ${player.name} has won the game!`)
+                return;
+            }
             printNewRound();
         }
     };
+    // A method to check if multiple elements of the same symbol exist on a line or diagonal
+    const checkBoard = (player) => {
+        const brd = board.getBoard()
+        const rows = brd.length;
+        const cols = brd[0].length;
+        const symbol = player.symbol;
+        const len = 3; // length of 3 for now
+        let isLine;
+        let isDiag;
+
+        // Check rows
+        for(let r = 0; r < rows; r++) {
+            for(let c = 0; c <= cols - len; c++) { 
+                isLine = true;
+                for(let i = 0; i < len; i++) {
+                    if(brd[r][c + i].getValue() !== symbol) {
+                        isLine = false;
+                        break;
+                    }
+                }
+                if(isLine) return true;
+            }
+        }
+        // Check columns
+        for(let c = 0; c < cols; c++) {
+            for(let r = 0; r <= rows - len; r++) {
+                isLine = true;
+                for(let i = 0; i < len; i++) {
+                    if(brd[r + i][c].getValue() !== symbol) {
+                        isLine = false;
+                        break;
+                    }
+                }
+                if(isLine) return true;
+            }
+        }
+        // Check main diagonal
+        for(let r = 0; r <= rows - len; r++) {
+            for(let c = 0; c <= cols - len; c++) {
+                isDiag = true;
+                for(i = 0; i < len; i++) {
+                    if(brd[r + i][c + i].getValue() !== symbol) {
+                        isDiag = false;
+                        break;
+                    }
+                }
+                if(isDiag) return true;
+            }
+        }
+        // Check anti-diagonal
+        for(let r = 0; r <= rows - len; r++) {
+            for(let c = len - 1; c < cols; c++) {
+                isDiag = true;
+                for(i = 0; i < len; i++) {
+                    if(brd[r + i][c - i].getValue() !== symbol) {
+                        isDiag = false;
+                        break;
+                    }
+                }
+                if(isDiag) return true;
+            }
+        }
+
+        return false;
+    }
    
     return {
         getActivePlayer,
         getBoard : board.getBoard(),
         playRound,
+        checkBoard,
     };
 }
 
