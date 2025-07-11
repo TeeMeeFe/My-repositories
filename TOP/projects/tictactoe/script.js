@@ -194,5 +194,48 @@ function gameController() {
     };
 }
 
+const screenController = () => {
+    const game = gameController();
+    // DOM specific consts
+    const playGameBtn = document.querySelector("button.play-game-btn");
+    const mainMenu = document.querySelector(".main-menu");
+    const inGameMenu = document.querySelector(".ingame-menu");
+    const turnTellerdiv = document.querySelector("div.turn-teller");
+    const gameControllerDiv = document.querySelector("div.game-container");
+    const playerDOM = {
+        playerOneDivData : document.querySelector("#playerOne"),
+        playerTwoDivData : document.querySelector("#playerTwo"),
+    }
+    const gameBoard = game.getBoard;
+    const boardSize = {
+        rows : gameBoard.length,
+        cols : gameBoard[0].length,
+    };
+
+    let isGamePlaying = false;
+    turnTellerdiv.textContent = ""; 
+
+    const updateBoard = () => {
+        const activePlayer = game.getActivePlayer();
+    };
+    
+    // Event listeners
+    // Switch the display state of our menus when we click the button
+    playGameBtn.addEventListener("click", () => {
+        if(!isGamePlaying) {
+            mainMenu.classList.add("inactive");
+            inGameMenu.classList.remove("inactive");
+        }
+    });
+    /*gameControllerDiv.addEventListener("click", e => {
+        console.log(e.target);
+        switch(e.target) {
+            
+            case playGameBtn: 
+            break;
+        }
+    });*/
+};
+
 console.log("Script loaded successfully...");
-const game = gameController();
+screenController();
