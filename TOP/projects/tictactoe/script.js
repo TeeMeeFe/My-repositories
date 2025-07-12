@@ -115,7 +115,7 @@ function gameController() {
                 winner = player;
                 board.printBoard(); // A little of redundancy for my sins wont hurt anyone
                 console.log(`Tic Tac Toe: ${player.name} has won the game!`);
-                return;
+                return winner;
             }
             printNewRound();
         }
@@ -196,34 +196,32 @@ function gameController() {
 
 const screenController = () => {
     const game = gameController();
+    let activePlayer = game.getActivePlayer();
     // DOM specific consts
     const playGameBtn = document.querySelector("button.play-game-btn");
     const mainMenu = document.querySelector(".main-menu");
     const inGameMenu = document.querySelector(".ingame-menu");
     const turnTellerdiv = document.querySelector("div.turn-teller");
-    const playerDOM = {
+    
+    /*const playerDOM = {
         playerOneDivData : document.querySelector("#playerOne"),
         playerTwoDivData : document.querySelector("#playerTwo"),
-    }
+    }*/ // Unused for now
     
     let isGamePlaying = false;
     turnTellerdiv.textContent = ""; 
 
-    // A method to render the board and update it 
-    const updateBoard = () => {
-        const activePlayer = game.getActivePlayer();
+    
+    const createBoard = () => {
         const gameBoard = game.getBoard;
         const boardDiv = document.querySelector(".board-container");
         const boardSize = {
             rows : gameBoard.length,
             cols : gameBoard[0].length,
         };
-
         // Clear the board
-        boardDiv.textContent = ""
-        // Show whose turn is...
-        turnTellerdiv.textContent = `It's ${activePlayer.name} turn now...`
-
+        boardDiv.textContent = "";
+        // Populate the board with cells as buttons
         let indexCell = 1;
         for(let i = 0; i < boardSize.rows; i++) {
             for(let j = 0; j < boardSize.cols; j++) {
@@ -240,6 +238,16 @@ const screenController = () => {
                 boardDiv.appendChild(cellButton);
             };
         };
+        updateBoard(); // 
+    };
+
+    // A method to render the board and update it 
+    const updateBoard = () => {
+        // Update our active player too
+        activePlayer = game.getActivePlayer();
+        // Show whose turn is...
+        turnTellerdiv.textContent = `It's ${activePlayer.name} turn now...`;
+        
     };
 
     // A method to toggle between the main menu and ingame menu
@@ -249,29 +257,37 @@ const screenController = () => {
             inGameMenu.classList.remove("inactive");
             isGamePlaying = true;
             // Render the board 
-            updateBoard();
+            createBoard();
         }
         else {
             mainMenu.classList.remove("inactive");
             inGameMenu.classList.add("inactive");
             isGamePlaying = false;
+        };
+    };
+
+    const gameStateHandler = (e) => {
+        // Get our cells
+        const cellBtn = e.target.tagName === "BUTTON";
+        const cellPos = {
+            row : e.target.dataset.row,
+            col : e.target.dataset.column,
         }
+        // Return early if we didn't click any buttons;
+        if(!cellBtn) return;
+        // Populate the cell's text with the player's symbol
+        e.target.textContent = activePlayer.symbol;
+        
+        // Play a round and update the board with the results
+        game.playRound(cellPos.row, cellPos.col, activePlayer);
+        updateBoard();
     }
     
     // Event listeners
     // Switch the display state of our menus when we click the button
     playGameBtn.addEventListener("click", () => switchGameState());
-    /*gameControllerDiv.addEventListener("click", e => {
-        console.log(e.target);
-        switch(e.target) {
-            
-            case playGameBtn: 
-            break;
-        }
-    });*/
-
-    
-    
+    // Update the board when we click on a cell
+    inGameMenu.addEventListener("click", e => gameStateHandler(e));
 };
 
 console.log("Script loaded successfully...");
