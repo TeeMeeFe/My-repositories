@@ -19,8 +19,8 @@
                     <fieldset>
                         <legend>Player One</legend>
                         <label for="player1">Name:</label>
-                        <input type="text" id="name" name="player1-name" placeholder="Player One">
-                        <fieldset class="symbol-row">
+                        <input type="text" id="name" name="player1-name" placeholder="Player One" disabled>
+                        <fieldset class="symbol-row" disabled>
                             Symbol:
                             <label for="player1" class="symbol-label">X</label>
                             <input type="radio" id="symbol-type-1" name="symbol-player1" value="X" checked>
@@ -37,8 +37,8 @@
                     <fieldset>
                         <legend>Player Two</legend>
                         <label for="player2">Name:</label>
-                        <input type="text" id="name" name="player2-name" placeholder="Player Two">
-                        <fieldset class="symbol-row">
+                        <input type="text" id="name" name="player2-name" placeholder="Player Two" disabled>
+                        <fieldset class="symbol-row" disabled>
                             Symbol:
                             <label for="player2" class="symbol-label">X</label>
                             <input type="radio" id="symbol-type-1" name="symbol-player2" value="X">
@@ -57,15 +57,12 @@
         <div class="ingame-menu inactive">
             <div class="game-container">
                 <div class="turn-teller">Lorem, ipsum.</div>
-                <div class="board-container">
+                <div class="board-container"></div>
+                <div class="play-menu-btns">
+                    <button class="reset-game-btn">Reset game</button>
+                    <button class="play-game play-game-btn">Main menu</button>
                 </div>
             </div>
-            <dialog class="game-modal">
-                <form method="dialog">
-                    <p class="winner-paragraph">Player One/Two won ? who knows...</p>
-                    <button class="play-again-btn play-game-btn">Play again!</button>
-                </form>
-            </dialog>
         </div>
     </main>
 </body>

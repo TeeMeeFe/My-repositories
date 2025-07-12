@@ -8,8 +8,8 @@ function gameBoard() {
         board[i] = [];
         for(let j = 0; j < columns; j++) {
             board[i].push(cell());
-        }
-    }
+        };
+    };
     
     // A method to get the status of the board
     const getBoard = () => board;
@@ -33,22 +33,22 @@ function gameBoard() {
         if(board[row][column].getValue() !== null) {
             console.log("That cell is already filled! Try again...")
             return false;
-        }
+        };
         // Otherwise fill the cell with the player's symbol
         board[row][column].addSymbol(player);
 
         return true;
-    }
+    };
     // Print in console our board
     const printBoard = () => {
         const arrayBoard = board.map((row) => row.map((cell) => cell.getValue()));
         arrayBoard.forEach(row => {
             console.log(...row);
-        })
-    } 
+        });
+    };
 
-    return { getBoard, fillCell, printBoard }
-}
+    return { getBoard, fillCell, printBoard };
+};
 
 function cell() {
     let value = null;
@@ -62,7 +62,7 @@ function cell() {
         addSymbol,
         getValue,
     };
-}
+};
 
 function getPlayers() {
     // Our players with their respective names and tokens(TODO: this should be changeable from the DOM)
@@ -79,7 +79,7 @@ function getPlayers() {
         playerOne,
         playerTwo,
     };
-}
+};
 
 function gameController() {
     const player = getPlayers();
@@ -104,9 +104,8 @@ function gameController() {
         // Bail early if a winner was chosen!
         if(winner !== undefined) { 
             console.log(`${winner.name} was declared the winner, game over!`); 
-            return; 
-        }
-        
+            return winner; 
+        };
         // Otherwise fill the cell
         if(board.fillCell(row, column, player.symbol)) {
             console.log(`Filling = Row: ${row}, Col: ${column}, with ${player.symbol} (${player.name})`);
@@ -116,9 +115,9 @@ function gameController() {
                 board.printBoard(); // A little of redundancy for my sins wont hurt anyone
                 console.log(`Tic Tac Toe: ${player.name} has won the game!`);
                 return winner;
-            }
+            };
             printNewRound();
-        }
+        };
     };
     // A method to check if multiple elements of the same symbol exist on a line or diagonal
     const checkBoard = (player) => {
@@ -138,11 +137,11 @@ function gameController() {
                     if(brd[r][c + i].getValue() !== symbol) {
                         isLine = false;
                         break;
-                    }
-                }
+                    };
+                };
                 if(isLine) return true;
-            }
-        }
+            };
+        };
         // Check columns
         for(let c = 0; c < cols; c++) {
             for(let r = 0; r <= rows - len; r++) {
@@ -151,11 +150,11 @@ function gameController() {
                     if(brd[r + i][c].getValue() !== symbol) {
                         isLine = false;
                         break;
-                    }
-                }
+                    };
+                };
                 if(isLine) return true;
-            }
-        }
+            };
+        };
         // Check main diagonal
         for(let r = 0; r <= rows - len; r++) {
             for(let c = 0; c <= cols - len; c++) {
@@ -164,11 +163,11 @@ function gameController() {
                     if(brd[r + i][c + i].getValue() !== symbol) {
                         isDiag = false;
                         break;
-                    }
-                }
+                    };
+                };
                 if(isDiag) return true;
-            }
-        }
+            };
+        };
         // Check anti-diagonal
         for(let r = 0; r <= rows - len; r++) {
             for(let c = len - 1; c < cols; c++) {
@@ -177,14 +176,14 @@ function gameController() {
                     if(brd[r + i][c - i].getValue() !== symbol) {
                         isDiag = false;
                         break;
-                    }
-                }
+                    };
+                };
                 if(isDiag) return true;
-            }
-        }
+            };
+        };
 
         return false;
-    }
+    };
    
     return {
         getActivePlayer,
@@ -192,7 +191,7 @@ function gameController() {
         playRound,
         checkBoard,
     };
-}
+};
 
 const screenController = () => {
     const game = gameController();
@@ -202,15 +201,12 @@ const screenController = () => {
     const mainMenu = document.querySelector(".main-menu");
     const inGameMenu = document.querySelector(".ingame-menu");
     const turnTellerdiv = document.querySelector("div.turn-teller");
-    
     /*const playerDOM = {
         playerOneDivData : document.querySelector("#playerOne"),
         playerTwoDivData : document.querySelector("#playerTwo"),
     }*/ // Unused for now
-    
     let isGamePlaying = false;
     turnTellerdiv.textContent = ""; 
-
     
     const createBoard = () => {
         const gameBoard = game.getBoard;
@@ -238,7 +234,7 @@ const screenController = () => {
                 boardDiv.appendChild(cellButton);
             };
         };
-        updateBoard(); // 
+        updateBoard(); 
     };
 
     // A method to render the board and update it 
@@ -247,7 +243,6 @@ const screenController = () => {
         activePlayer = game.getActivePlayer();
         // Show whose turn is...
         turnTellerdiv.textContent = `It's ${activePlayer.name} turn now...`;
-        
     };
 
     // A method to toggle between the main menu and ingame menu
@@ -268,20 +263,27 @@ const screenController = () => {
 
     const gameStateHandler = (e) => {
         // Get our cells
-        const cellBtn = e.target.tagName === "BUTTON";
+        const cellBtn = e.target.classList.contains("cell"); // Target only our cell buttons
+        const cells = document.querySelectorAll("button.cell");
         const cellPos = {
             row : e.target.dataset.row,
             col : e.target.dataset.column,
-        }
+        };
         // Return early if we didn't click any buttons;
         if(!cellBtn) return;
+        // Play a round and update the board with the results
+        const winner = game.playRound(cellPos.row, cellPos.col, activePlayer);
+        // If we got a winner
+        if(winner !== undefined) {
+            turnTellerdiv.textContent = `Tic Tac Toe: ${activePlayer.name} has won the game!`;
+            e.target.textContent = activePlayer.symbol;
+            cells.forEach(c => {c.setAttribute("disabled", "")}); // Disable our buttons!
+            return;
+        };
         // Populate the cell's text with the player's symbol
         e.target.textContent = activePlayer.symbol;
-        
-        // Play a round and update the board with the results
-        game.playRound(cellPos.row, cellPos.col, activePlayer);
         updateBoard();
-    }
+    };
     
     // Event listeners
     // Switch the display state of our menus when we click the button
