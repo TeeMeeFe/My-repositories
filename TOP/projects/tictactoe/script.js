@@ -15,30 +15,36 @@ function gameBoard() {
     const getBoard = () => board;
     // A method to fill our cells
     const fillCell = (row, column, player) => {
-        // Check if the row or column is within bounds
-        if(row >= rows || column >= columns) {
-            console.log("The specified cell is out of bounds!");
-            return false;
+        const reason = {
+            outOfBounds : false, 
+            notAvailable : false, 
+            alreadyFilled : false,
         };
         // Look for all the cells that are not filled yet(or are nullish)
         const availableCells = board
-            .filter(row => row.some(cell => cell.getValue() === null))
-            .map(row => row.filter(cell => cell.getValue() === null));
-        // If no cell is available, return early
-        if(!availableCells.length) {
-            console.log("No cells are available anymore, game over!")
-            return false;
+            .filter(r => r.some(cell => cell.getValue() === null))
+            .map(r => r.filter(cell => cell.getValue() === null));
+        // Check if the row or column is within bounds
+        if(row >= rows || column >= columns) {
+            reason.outOfBounds = true;
+            return reason;
         };
-        // If that cell is occupied, escape early
+        // If no cell is available, return the reason
+        if(!availableCells.length) {
+            reason.notAvailable = true;
+            return reason;
+        };
+        // If that cell is occupied, also return the reason
         if(board[row][column].getValue() !== null) {
-            console.log("That cell is already filled! Try again...")
-            return false;
+            reason.alreadyFilled = true;
+            return reason; 
         };
         // Otherwise fill the cell with the player's symbol
         board[row][column].addSymbol(player);
 
         return true;
     };
+    
     // Print in console our board
     const printBoard = () => {
         const arrayBoard = board.map((row) => row.map((cell) => cell.getValue()));
@@ -85,9 +91,14 @@ function gameController() {
     const player = getPlayers();
     const board = gameBoard();
 
-    let winner;
+    let winner = {
+        player : undefined,
+    };
     let activePlayer = player.playerOne;
+    let textBoard = ""; // Redundant but important for the front-end
 
+    // A method to manipulate some text to be returned
+    const getTextBoard = () => textBoard;
     // A method to switch turns
     const changeTurn = () => activePlayer = activePlayer === player.playerOne ? player.playerTwo : player.playerOne;
     // A method to get who's currently playing
@@ -96,28 +107,50 @@ function gameController() {
     const printNewRound = () => {
         board.printBoard();
         console.log(`It's ${activePlayer.name} turn now.`);
+        textBoard = `It's ${activePlayer.name} turn now.`;
     };
     // A method to play the round
     const playRound = (row, column) => {
         const player = getActivePlayer();
-
+    
         // Bail early if a winner was chosen!
-        if(winner !== undefined) { 
+        if(winner.player !== undefined) { 
             console.log(`${winner.name} was declared the winner, game over!`); 
-            return winner; 
+            textBoard = `${winner.name} was declared the winner, game over!`;
+            return winner.player; 
         };
         // Otherwise fill the cell
-        if(board.fillCell(row, column, player.symbol)) {
+        const fillCell = board.fillCell(row, column, player.symbol);
+        // Return the reasons it failed to do so
+        if(fillCell.outOfBounds === true) {
+            console.log("The selected cell is out of bounds!");
+            textBoard = "The selected cell is out of bounds!";
+            return fillCell;
+        }
+        else if(fillCell.alreadyFilled === true) {
+            console.log("That cell is already filled! Try again...");
+            textBoard = "That cell is already filled! Try again...";
+            return fillCell;
+        }
+        else if(fillCell.notAvailable === true) {
+            console.log("No cells are available anymore, game over!");
+            textBoard = "No cells are available anymore, game over!";
+            return fillCell;
+        }
+        // Otherwise continue...
+        else {
             console.log(`Filling = Row: ${row}, Col: ${column}, with ${player.symbol} (${player.name})`);
             changeTurn();
             if(checkBoard(player)) {
-                winner = player;
+                winner.player = player;
                 board.printBoard(); // A little of redundancy for my sins wont hurt anyone
                 console.log(`Tic Tac Toe: ${player.name} has won the game!`);
-                return winner;
+                textBoard = `Tic Tac Toe: ${player.name} has won the game!`;
+                return winner.player;
             };
             printNewRound();
         };
+        return true;
     };
     // A method to check if multiple elements of the same symbol exist on a line or diagonal
     const checkBoard = (player) => {
@@ -186,6 +219,7 @@ function gameController() {
     };
    
     return {
+        getTextBoard,
         getActivePlayer,
         getBoard : board.getBoard(),
         playRound,
@@ -193,20 +227,24 @@ function gameController() {
     };
 };
 
-const screenController = () => {
+function screenController() {
     const game = gameController();
     let activePlayer = game.getActivePlayer();
     // DOM specific consts
     const playGameBtn = document.querySelector("button.play-game-btn");
     const mainMenu = document.querySelector(".main-menu");
     const inGameMenu = document.querySelector(".ingame-menu");
-    const turnTellerdiv = document.querySelector("div.turn-teller");
+    const updateTurnDiv = () => { 
+        const turnTellerdiv = document.querySelector("div.turn-teller");
+        const turnDiv = game.getTextBoard();
+        turnTellerdiv.textContent = turnDiv;         
+    }; 
     /*const playerDOM = {
         playerOneDivData : document.querySelector("#playerOne"),
         playerTwoDivData : document.querySelector("#playerTwo"),
     }*/ // Unused for now
     let isGamePlaying = false;
-    turnTellerdiv.textContent = ""; 
+    
     
     const createBoard = () => {
         const gameBoard = game.getBoard;
@@ -242,7 +280,7 @@ const screenController = () => {
         // Update our active player too
         activePlayer = game.getActivePlayer();
         // Show whose turn is...
-        turnTellerdiv.textContent = `It's ${activePlayer.name} turn now...`;
+        updateTurnDiv();
     };
 
     // A method to toggle between the main menu and ingame menu
@@ -258,6 +296,7 @@ const screenController = () => {
             mainMenu.classList.remove("inactive");
             inGameMenu.classList.add("inactive");
             isGamePlaying = false;
+            // Add a function here to destroy the entire board
         };
     };
 
@@ -272,17 +311,21 @@ const screenController = () => {
         // Return early if we didn't click any buttons;
         if(!cellBtn) return;
         // Play a round and update the board with the results
-        const winner = game.playRound(cellPos.row, cellPos.col, activePlayer);
-        // If we got a winner
-        if(winner !== undefined) {
-            turnTellerdiv.textContent = `Tic Tac Toe: ${activePlayer.name} has won the game!`;
+        const round = game.playRound(cellPos.row, cellPos.col, activePlayer);
+        // If our clicked cell is either out of bounds(through the console) or is already filled
+        if(round.outOfBounds === true || round.alreadyFilled === true) {
+            updateBoard();
+        }
+        else {
+            // Populate the cell's text with the player's symbol
             e.target.textContent = activePlayer.symbol;
-            cells.forEach(c => {c.setAttribute("disabled", "")}); // Disable our buttons!
+            updateBoard();
+        };
+        // Round is over, disable our buttons!
+        if(round.notAvailable === true || round.name !== undefined) {
+            cells.forEach(c => {c.setAttribute("disabled", "")}); 
             return;
         };
-        // Populate the cell's text with the player's symbol
-        e.target.textContent = activePlayer.symbol;
-        updateBoard();
     };
     
     // Event listeners
