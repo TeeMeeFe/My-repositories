@@ -29,12 +29,12 @@ function gameBoard() {
             reason.outOfBounds = true;
             return reason;
         };
-        // If no cell is available, return the reason
+        // If no cell is available
         if(!availableCells.length) {
             reason.notAvailable = true;
             return reason;
         };
-        // If that cell is occupied, also return the reason
+        // If that cell is occupied
         if(board[row][column].getValue() !== null) {
             reason.alreadyFilled = true;
             return reason; 
@@ -68,6 +68,11 @@ function cell() {
         addSymbol,
         getValue,
     };
+};
+
+function textMessage(string) {
+    console.log(string);
+    return string;
 };
 
 function getPlayers() {
@@ -106,8 +111,7 @@ function gameController() {
     // A method to print the board
     const printNewRound = () => {
         board.printBoard();
-        console.log(`It's ${activePlayer.name} turn now.`);
-        textBoard = `It's ${activePlayer.name} turn now.`;
+        textBoard = textMessage(`It's ${activePlayer.name} turn now.`);
     };
     // A method to play the round
     const playRound = (row, column) => {
@@ -115,26 +119,22 @@ function gameController() {
     
         // Bail early if a winner was chosen!
         if(winner.player !== undefined) { 
-            console.log(`${winner.name} was declared the winner, game over!`); 
-            textBoard = `${winner.name} was declared the winner, game over!`;
+            textBoard = textMessage(`${winner.name} was declared the winner, game over!`);
             return winner.player; 
         };
         // Otherwise fill the cell
         const fillCell = board.fillCell(row, column, player.symbol);
         // Return the reasons it failed to do so
         if(fillCell.outOfBounds === true) {
-            console.log("The selected cell is out of bounds!");
-            textBoard = "The selected cell is out of bounds!";
+            textBoard = textMessage("The selected cell is out of bounds!");
             return fillCell;
         }
         else if(fillCell.alreadyFilled === true) {
-            console.log("That cell is already filled! Try again...");
-            textBoard = "That cell is already filled! Try again...";
+            textBoard = textMessage("That cell is already filled! Try again...");
             return fillCell;
         }
         else if(fillCell.notAvailable === true) {
-            console.log("No cells are available anymore, game over!");
-            textBoard = "No cells are available anymore, game over!";
+            textBoard = textMessage("No cells are available anymore, game over!");
             return fillCell;
         }
         // Otherwise continue...
@@ -144,8 +144,7 @@ function gameController() {
             if(checkBoard(player)) {
                 winner.player = player;
                 board.printBoard(); // A little of redundancy for my sins wont hurt anyone
-                console.log(`Tic Tac Toe: ${player.name} has won the game!`);
-                textBoard = `Tic Tac Toe: ${player.name} has won the game!`;
+                textBoard = textMessage(`Tic Tac Toe: ${player.name} has won the game!`);
                 return winner.player;
             };
             printNewRound();
@@ -244,7 +243,6 @@ function screenController() {
         playerTwoDivData : document.querySelector("#playerTwo"),
     }*/ // Unused for now
     let isGamePlaying = false;
-    
     
     const createBoard = () => {
         const gameBoard = game.getBoard;
