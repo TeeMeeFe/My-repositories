@@ -89,7 +89,7 @@ button.play-game {
     padding-bottom: 2.5em;
 }
 
-.button-container {
+.board-container {
     flex-basis: 90vh;
     display: grid;
     justify-content: center;

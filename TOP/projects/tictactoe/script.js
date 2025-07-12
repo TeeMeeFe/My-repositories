@@ -201,32 +201,66 @@ const screenController = () => {
     const mainMenu = document.querySelector(".main-menu");
     const inGameMenu = document.querySelector(".ingame-menu");
     const turnTellerdiv = document.querySelector("div.turn-teller");
-    const gameControllerDiv = document.querySelector("div.game-container");
     const playerDOM = {
         playerOneDivData : document.querySelector("#playerOne"),
         playerTwoDivData : document.querySelector("#playerTwo"),
     }
-    const gameBoard = game.getBoard;
-    const boardSize = {
-        rows : gameBoard.length,
-        cols : gameBoard[0].length,
-    };
-
+    
     let isGamePlaying = false;
     turnTellerdiv.textContent = ""; 
 
+    // A method to render the board and update it 
     const updateBoard = () => {
         const activePlayer = game.getActivePlayer();
+        const gameBoard = game.getBoard;
+        const boardDiv = document.querySelector(".board-container");
+        const boardSize = {
+            rows : gameBoard.length,
+            cols : gameBoard[0].length,
+        };
+
+        // Clear the board
+        boardDiv.textContent = ""
+        // Show whose turn is...
+        turnTellerdiv.textContent = `It's ${activePlayer.name} turn now...`
+
+        let indexCell = 1;
+        for(let i = 0; i < boardSize.rows; i++) {
+            for(let j = 0; j < boardSize.cols; j++) {
+                // For every cell the board has, we create a button!
+                const cellButton = document.createElement("button");
+                // Add classes and its content
+                cellButton.classList.add("cell");
+                cellButton.dataset.row = i;
+                cellButton.dataset.column = j;
+                cellButton.dataset.index = indexCell;
+                cellButton.textContent = cell().getValue();
+                indexCell++;
+                // Append it to the DOM element
+                boardDiv.appendChild(cellButton);
+            };
+        };
     };
-    
-    // Event listeners
-    // Switch the display state of our menus when we click the button
-    playGameBtn.addEventListener("click", () => {
+
+    // A method to toggle between the main menu and ingame menu
+    const switchGameState = () => {
         if(!isGamePlaying) {
             mainMenu.classList.add("inactive");
             inGameMenu.classList.remove("inactive");
+            isGamePlaying = true;
+            // Render the board 
+            updateBoard();
         }
-    });
+        else {
+            mainMenu.classList.remove("inactive");
+            inGameMenu.classList.add("inactive");
+            isGamePlaying = false;
+        }
+    }
+    
+    // Event listeners
+    // Switch the display state of our menus when we click the button
+    playGameBtn.addEventListener("click", () => switchGameState());
     /*gameControllerDiv.addEventListener("click", e => {
         console.log(e.target);
         switch(e.target) {
@@ -235,6 +269,9 @@ const screenController = () => {
             break;
         }
     });*/
+
+    
+    
 };
 
 console.log("Script loaded successfully...");
