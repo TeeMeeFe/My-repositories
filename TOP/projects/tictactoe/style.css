@@ -61,41 +61,52 @@ button.play-game {
     font-size: 2em;
 }
 
+button.cell {
+    font-size: 15vh;
+}
+
 .inactive {
     display: none;
 }
-
-/* Temporary Rule, REMOVE WHEN FINISHED */
-/*.main-menu {
-    display: none;
-}*/
 
 .ingame-menu {
     justify-items: center;
 }
 
 .game-container {
-    display: flex;
-    flex-flow: row wrap;
-    
-    padding-top: 6em;
+    display: grid;
+    grid-template-rows: 1fr 5fr;
+    grid-template-columns: 5fr 1fr;
+
+    margin: auto;
+    height: 600px;
+    width: 100%;
     max-height: 90vh;
     max-width: 90vh;
 }
 
 .turn-teller {
-    float: left;
     margin: auto;
-    padding-bottom: 2.5em;
+    grid-area: 1 / span 2;
+    padding-bottom: 1em;
 }
 
 .board-container {
-    flex-basis: 90vh;
     display: grid;
+    grid: 2fr;
+    grid-row: 2;
     justify-content: center;
     grid-template-columns: repeat(3, minmax(4em, 1fr));
     grid-template-rows: repeat(3, minmax(4em, 1fr));
     gap: 1em;
     padding: 1em;
+}
+
+.play-menu-btns {
+    grid-row: 2;
+    grid-column: 2;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
 }
 

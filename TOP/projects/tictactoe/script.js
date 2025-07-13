@@ -4,17 +4,25 @@ function gameBoard() {
     const board = [];
 
     // Create a 2d array, populating each row and column with a cell we create
-    for(let i = 0; i < rows; i++) {
-        board[i] = [];
-        for(let j = 0; j < columns; j++) {
-            board[i].push(cell());
+    function populateBoard() {
+        for(let i = 0; i < rows; i++) {
+            board[i] = [];
+            for(let j = 0; j < columns; j++) {
+                board[i].push(cell());
+            };
         };
-    };
-    
+    };populateBoard();
+
     // A method to get the status of the board
     const getBoard = () => board;
+    // A method to reset the board
+    const resetBoard = () => {
+        board.forEach(e => board.pop(e));
+        populateBoard();
+    };
     // A method to fill our cells
     const fillCell = (row, column, player) => {
+        
         const reason = {
             outOfBounds : false, 
             notAvailable : false, 
@@ -53,7 +61,7 @@ function gameBoard() {
         });
     };
 
-    return { getBoard, fillCell, printBoard };
+    return { getBoard, resetBoard, fillCell, printBoard };
 };
 
 function cell() {
@@ -80,32 +88,54 @@ function getPlayers() {
     const playerOne = {
         name : "Player One",
         symbol : "X",
+        score : 0,
     };
     const playerTwo = {
         name : "Player Two",
         symbol : "O",
+        score : 0,
     };
+    const resetPlayersScore = () => {
+        playerOne.score = playerTwo.score = 0;
+    }
 
     return {
         playerOne,
         playerTwo,
+        resetPlayersScore,
     };
 };
 
 function gameController() {
-    const player = getPlayers();
+    const players = getPlayers();
     const board = gameBoard();
 
     let winner = {
         player : undefined,
     };
-    let activePlayer = player.playerOne;
+    let activePlayer = players.playerOne;
     let textBoard = ""; // Redundant but important for the front-end
 
     // A method to manipulate some text to be returned
     const getTextBoard = () => textBoard;
+    // A method to reset the board
+    const resetGameState = (type) => {
+        if(type == 0) { // Simply reset the board
+            board.resetBoard();
+            winner.player = undefined;
+            activePlayer = players.playerOne;
+            textBoard = "";
+        }
+        else if(type == 1) { // Wipe everything
+            board.resetBoard();
+            winner.player = undefined;
+            activePlayer = players.playerOne;
+            textBoard = "";
+            players.resetPlayersScore();
+        }
+    }
     // A method to switch turns
-    const changeTurn = () => activePlayer = activePlayer === player.playerOne ? player.playerTwo : player.playerOne;
+    const changeTurn = () => activePlayer = activePlayer === players.playerOne ? players.playerTwo : players.playerOne;
     // A method to get who's currently playing
     const getActivePlayer = () => activePlayer;
     // A method to print the board
@@ -143,6 +173,7 @@ function gameController() {
             changeTurn();
             if(checkBoard(player)) {
                 winner.player = player;
+                player.score += 1;
                 board.printBoard(); // A little of redundancy for my sins wont hurt anyone
                 textBoard = textMessage(`Tic Tac Toe: ${player.name} has won the game!`);
                 return winner.player;
@@ -221,6 +252,7 @@ function gameController() {
         getTextBoard,
         getActivePlayer,
         getBoard : board.getBoard(),
+        resetGameState,
         playRound,
         checkBoard,
     };
@@ -231,6 +263,7 @@ function screenController() {
     let activePlayer = game.getActivePlayer();
     // DOM specific consts
     const playGameBtn = document.querySelector("button.play-game-btn");
+    const playMenuBtns = document.querySelector("div.play-menu-btns");
     const mainMenu = document.querySelector(".main-menu");
     const inGameMenu = document.querySelector(".ingame-menu");
     const updateTurnDiv = () => { 
@@ -281,6 +314,15 @@ function screenController() {
         updateTurnDiv();
     };
 
+    // A method to delete the contents of the board(most likely too overkill)
+    const resetBoard = (softOrHard) => {
+        // Reset the board DOM
+        document.querySelector(".board-container").innerHTML = "";
+        // Reset the game controller and re-create the board
+        game.resetGameState(softOrHard);
+        createBoard();
+    };
+
     // A method to toggle between the main menu and ingame menu
     const switchGameState = () => {
         if(!isGamePlaying) {
@@ -294,7 +336,8 @@ function screenController() {
             mainMenu.classList.remove("inactive");
             inGameMenu.classList.add("inactive");
             isGamePlaying = false;
-            // Add a function here to destroy the entire board
+            // Delete the board
+            resetBoard(1);
         };
     };
 
@@ -329,8 +372,22 @@ function screenController() {
     // Event listeners
     // Switch the display state of our menus when we click the button
     playGameBtn.addEventListener("click", () => switchGameState());
+    playMenuBtns.addEventListener("click", e => {
+        const button = e.target;
+        if(button.classList.contains("main-menu-btn")) {
+            switchGameState();
+        }
+        else if(button.classList.contains("reset-game-btn")) {
+            resetBoard(0);
+        }
+        else if(button.classList.contains("view-score-btn")) {
+            // Call a function to show a modal here
+        }
+        
+    });    
     // Update the board when we click on a cell
     inGameMenu.addEventListener("click", e => gameStateHandler(e));
+
 };
 
 console.log("Script loaded successfully...");
