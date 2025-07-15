@@ -98,11 +98,15 @@ function getPlayers() {
     const resetPlayersScore = () => {
         playerOne.score = playerTwo.score = 0;
     }
+    const setPlayerScore = (player, score) => {
+        return player.score = score;
+    }
 
     return {
         playerOne,
         playerTwo,
         resetPlayersScore,
+        setPlayerScore,
     };
 };
 
@@ -259,6 +263,7 @@ function screenController() {
     const playMenuBtns = document.querySelector("div.play-menu-btns");
     const mainMenu = document.querySelector(".main-menu");
     const inGameMenu = document.querySelector(".ingame-menu");
+    const viewScoreDialog = document.querySelector(".view-score-dialog");
     const updateTurnDiv = () => { 
         const turnTellerdiv = document.querySelector("div.turn-teller");
         const turnDiv = game.getTextBoard();
@@ -361,6 +366,23 @@ function screenController() {
             return;
         };
     };
+
+    // A method to handle a dialog(specific to view score for now)
+    const dialogHandler = () => {
+        viewScoreDialog.showModal();
+
+        const dialog = viewScoreDialog;
+
+        const playerData = getPlayers();
+        const playerOneScore = dialog.querySelector(".playerOne");
+        const playerTwoScore = dialog.querySelector(".playerTwo");
+        const closeBtn = dialog.querySelector("#close-btn");
+
+        playerOneScore.textContent = dialog.open ? `${playerData.playerOne.name} score: ${playerData.playerOne.score}` : undefined;
+        playerTwoScore.textContent = dialog.open ? `${playerData.playerTwo.name} score: ${playerData.playerTwo.score}` : undefined;
+
+        closeBtn.addEventListener("click", () => viewScoreDialog.close()); // Close the dialog upon clicking it
+    };
     
     // Event listeners
     // Switch the display state of our menus when we click the button
@@ -374,9 +396,8 @@ function screenController() {
             resetBoard(0);
         }
         else if(button.classList.contains("view-score-btn")) {
-            // Call a function to show a modal here
-        }
-        
+            dialogHandler();
+        };
     });    
     // Update the board when we click on a cell
     inGameMenu.addEventListener("click", e => gameStateHandler(e));

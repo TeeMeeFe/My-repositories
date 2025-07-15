@@ -63,7 +63,19 @@
                     <button class="play-game view-score-btn">View Score</button>
                     <button class="play-game main-menu-btn">Main menu</button>
                 </div>
-            </div>
+                <dialog class="view-score-dialog" id="dialogs">
+                    <form method="dialog">
+                        <fieldset class="view-score-dialog">
+                            <legend>Scores</legend>
+                            <p class="view-score playerOne"></p>
+                            <p class="view-score playerTwo"></p>
+                        </fieldset>
+                    </form>
+                    <div class="view-score-btns">
+                        <button id="close-btn" value="cancel" formmethod="dialog">Close</button>
+                    </div>
+                </dialog>
+            </div> 
         </div>
     </main>
 </body>

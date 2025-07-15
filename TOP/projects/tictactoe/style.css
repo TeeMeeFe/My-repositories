@@ -15,6 +15,29 @@ header {
     margin-bottom: 2em;
 }
 
+dialog {
+    margin: 0;
+    padding: 4rem;
+    border-radius: 16px;
+
+    transform: translateX(-50%);
+    left: 50%;
+    top: 10%;
+
+    width: fit-content;
+}
+
+::backdrop {
+    background-color: #0F0F0F;
+    opacity: 50%;
+}
+
+.view-score-btns {
+    display: flex;
+    margin-top: 1em;
+    justify-content: center;
+}
+
 .main-menu {
     display: flex;
     height: 50%;
