@@ -120,20 +120,13 @@ function gameController() {
     const getTextBoard = () => textBoard;
     // A method to reset the board
     const resetGameState = (type) => {
-        if(type == 0) { // Simply reset the board
-            board.resetBoard();
-            winner.player = undefined;
-            activePlayer = players.playerOne;
-            textBoard = "";
-        }
-        else if(type == 1) { // Wipe everything
-            board.resetBoard();
-            winner.player = undefined;
-            activePlayer = players.playerOne;
-            textBoard = "";
-            players.resetPlayersScore();
-        }
-    }
+        board.resetBoard();
+        winner.player = undefined;
+        activePlayer = players.playerOne;
+        textBoard = "";
+        // Wipe everything
+        if(type == 1) players.resetPlayersScore();
+    };
     // A method to switch turns
     const changeTurn = () => activePlayer = activePlayer === players.playerOne ? players.playerTwo : players.playerOne;
     // A method to get who's currently playing
@@ -387,7 +380,6 @@ function screenController() {
     });    
     // Update the board when we click on a cell
     inGameMenu.addEventListener("click", e => gameStateHandler(e));
-
 };
 
 console.log("Script loaded successfully...");
