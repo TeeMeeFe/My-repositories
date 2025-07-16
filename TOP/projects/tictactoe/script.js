@@ -98,21 +98,21 @@ function getPlayers() {
     const resetPlayersScore = () => {
         playerOne.score = playerTwo.score = 0;
     }
-    const setPlayerScore = (player, score) => {
-        return player.score = score;
-    }
 
     return {
         playerOne,
         playerTwo,
         resetPlayersScore,
-        setPlayerScore,
     };
 };
 
 function gameController() {
     const players = getPlayers();
     const board = gameBoard();
+    // A method to get who's currently playing
+    const getActivePlayer = () => activePlayer;
+    // A method to get all the players 
+    const getAllPlayers = () => players;
 
     let winner = {
         player : undefined,
@@ -133,8 +133,6 @@ function gameController() {
     };
     // A method to switch turns
     const changeTurn = () => activePlayer = activePlayer === players.playerOne ? players.playerTwo : players.playerOne;
-    // A method to get who's currently playing
-    const getActivePlayer = () => activePlayer;
     // A method to print the board
     const printNewRound = () => {
         board.printBoard();
@@ -249,6 +247,7 @@ function gameController() {
         getTextBoard,
         getActivePlayer,
         getBoard : board.getBoard(),
+        getAllPlayers,
         resetGameState,
         playRound,
         checkBoard,
@@ -372,8 +371,8 @@ function screenController() {
         viewScoreDialog.showModal();
 
         const dialog = viewScoreDialog;
-
-        const playerData = getPlayers();
+        const playerData = game.getAllPlayers();
+        
         const playerOneScore = dialog.querySelector(".playerOne");
         const playerTwoScore = dialog.querySelector(".playerTwo");
         const closeBtn = dialog.querySelector("#close-btn");
