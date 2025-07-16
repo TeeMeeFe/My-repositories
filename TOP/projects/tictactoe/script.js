@@ -377,8 +377,8 @@ function screenController() {
         const playerTwoScore = dialog.querySelector(".playerTwo");
         const closeBtn = dialog.querySelector("#close-btn");
 
-        playerOneScore.textContent = dialog.open ? `${playerData.playerOne.name} score: ${playerData.playerOne.score}` : undefined;
-        playerTwoScore.textContent = dialog.open ? `${playerData.playerTwo.name} score: ${playerData.playerTwo.score}` : undefined;
+        playerOneScore.textContent = dialog.open ? `${playerData.playerOne.name} score: ${playerData.playerOne.score}` : "";
+        playerTwoScore.textContent = dialog.open ? `${playerData.playerTwo.name} score: ${playerData.playerTwo.score}` : "";
 
         closeBtn.addEventListener("click", () => viewScoreDialog.close()); // Close the dialog upon clicking it
     };
