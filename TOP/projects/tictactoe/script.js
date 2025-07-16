@@ -1,3 +1,4 @@
+/*
 function gameBoard() {
     const rows = 3;
     const columns = 3;
@@ -272,6 +273,7 @@ function screenController() {
         playerOneDivData : document.querySelector("#playerOne"),
         playerTwoDivData : document.querySelector("#playerTwo"),
     }*/ // Unused for now
+    /*
     let isGamePlaying = false;
     
     const createBoard = () => {
@@ -403,4 +405,4 @@ function screenController() {
 };
 
 console.log("Script loaded successfully...");
-screenController();
+screenController();*/
