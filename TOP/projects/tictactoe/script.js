@@ -112,8 +112,9 @@ class Game {
         }
     }
 
-    textBoard = "";
-    activePlayer = null;
+    static #board = new Board;
+    #textBoard = "";
+    #activePlayer = null;
 
     /**
      * @description A method to get all the players 
@@ -131,43 +132,46 @@ class Game {
      * @description A method to manipulate some text to be returned, useful for the front-end
      * @returns `String` textBoard
      */
-    get getTextBoard () { return this.textBoard };
-
-    static #board = new Board;
+    get getTextBoard () { return this.#textBoard };
 
     /**
-     * @description A method to reset the board
+     * @description Swaps the goesFirst atribute of the instance Game
+     */
+    #swapGoesFirst = () => this.object.goesFirst = this.object.goesFirst === "player1" ? "player2" : "player1";
+
+    /**
+     * @description A method to reset the game
      */
     resetGameState = () => {
         Board.resetBoard(); // Clean the board
-        this.object.winner = null; // Nullify our winner
-        this.textBoard = "";
-        activePlayer = players.playerOne;
-        
+        this.object.winner = null; // Nullify the instance of winner and activePlayer
+        this.#activePlayer = null; 
+        this.#textBoard = "";
+        this.#swapGoesFirst();
     };
 
     /**
      * @description A method to switch turns
      */
-    changeTurn = () => activePlayer = activePlayer === this.object.playerOne ? this.object.playerTwo : this.object.playerOne;
+    changeTurn = () => this.#activePlayer = this.#activePlayer === this.object.playerOne ? this.object.playerTwo : this.object.playerOne;
 
     /**
      * @description A method to play the rounds
      * @returns `Boolean` = `False` if failed to play, otherwise `True`; `Object` if a winner was found
      */ 
     playRound = (row, column) => {
-        const player = this.activePlayer = this.activePlayer == null ? 
+        const player = this.#activePlayer = this.#activePlayer == null ? 
                        this.getPlayerGoesFirst == "player1" ? this.object.playerOne : this.object.playerTwo : this.object.playerOne;
 
         // Otherwise fill the cell
         const fillCell = Board.fillCell(row, column, player.symbol);
         // Return the reasons it failed to do so
         if(fillCell.alreadyFilled === true) {
-            this.textBoard = textMessage("That cell is already filled! Try again...");
+            this.#textBoard = textMessage("That cell is already filled! Try again...");
             return false;
         }
         else if(fillCell.notAvailable === true) {
-            this.textBoard = textMessage("No cells are available anymore, game over!");
+            this.#textBoard = textMessage("No cells are available anymore, game over!");
             return false;
         }
         // Otherwise continue...
@@ -176,7 +180,7 @@ class Game {
             this.changeTurn();
             if(this.checkBoard(player)) {
                 this.object.winner = player;
-                this.textBoard = textMessage(`Tic Tac Toe: ${player.name} has won the game!`);
+                this.#textBoard = textMessage(`Tic Tac Toe: ${player.name} has won the game!`);
                 player.addScore(1);
                 return this.object.winner;
             };
