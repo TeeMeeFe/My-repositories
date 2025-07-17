@@ -5,12 +5,16 @@ class Player {
         this.score = score;
     }
 
+    /**
+     * @description Gets the player's instance data
+     */
     get getData() {
         return this;
     }
 
     /**
      * @param {number} value
+     * @description Sets the player's instance score
      */
     set setScore(value) {
         this.setScore = value;
@@ -96,13 +100,72 @@ class Cell {
 }
 
 class Game {
-    /*players = {
-        playerOne : new Player("Player One", "X"),
-        playerTwo : new Player("Player Two", "O"),
-    }*/
-
-    board = new Board;
+    static #board = new Board;
     
+    checkBoard = (player) => {
+        const brd = Game.#board.getBoard();
+        const rows = brd.length;
+        const cols = brd[0].length;
+        const symbol = player.symbol;
+        const len = 3; // length of 3 for now
+        let isLine;
+        let isDiag;
+
+        // Check rows
+        for(let r = 0; r < rows; r++) {
+            for(let c = 0; c <= cols - len; c++) { 
+                isLine = true;
+                for(let i = 0; i < len; i++) {
+                    if(brd[r][c + i].getValue() !== symbol) {
+                        isLine = false;
+                        break;
+                    };
+                };
+                if(isLine) return true;
+            };
+        };
+        // Check columns
+        for(let c = 0; c < cols; c++) {
+            for(let r = 0; r <= rows - len; r++) {
+                isLine = true;
+                for(let i = 0; i < len; i++) {
+                    if(brd[r + i][c].getValue() !== symbol) {
+                        isLine = false;
+                        break;
+                    };
+                };
+                if(isLine) return true;
+            };
+        };
+        // Check main diagonal
+        for(let r = 0; r <= rows - len; r++) {
+            for(let c = 0; c <= cols - len; c++) {
+                isDiag = true;
+                for(i = 0; i < len; i++) {
+                    if(brd[r + i][c + i].getValue() !== symbol) {
+                        isDiag = false;
+                        break;
+                    };
+                };
+                if(isDiag) return true;
+            };
+        };
+        // Check anti-diagonal
+        for(let r = 0; r <= rows - len; r++) {
+            for(let c = len - 1; c < cols; c++) {
+                isDiag = true;
+                for(i = 0; i < len; i++) {
+                    if(brd[r + i][c - i].getValue() !== symbol) {
+                        isDiag = false;
+                        break;
+                    };
+                };
+                if(isDiag) return true;
+            };
+        };
+
+        return false;
+    };
 }
 
 const textMessage = (string) => {
@@ -111,11 +174,9 @@ const textMessage = (string) => {
 };
 
 const screenController = () => {
-    //const playerOneDOMName = document.querySelector(".player1-name");
-    const playGameBtn = document.querySelector(".play-game-btn");
-    const formData = submitFormHandler();
-    const game = new Game;
+    let isGamePlaying = false;
 
+    // A method to handle form data
     const submitFormHandler = () => { 
         const playerFormData = document.querySelector(".player-form");
 
@@ -124,6 +185,7 @@ const screenController = () => {
             e.preventDefault();
             new FormData(playerFormData);
         });
+
         playerFormData.addEventListener("formdata", e => {
             console.log("FormData fired");
 
@@ -137,12 +199,41 @@ const screenController = () => {
             });
 
             // Convert our array into an object
-            const obj = [Object.fromEntries(arr),];
+            const obj = [Object.fromEntries(arr),][0];
+            switchGameMenu();
 
-            return obj[0];
+            console.log(obj);
+
+            return obj;
         });
     }
+    // A method to toggle between the main menu and ingame menu
+    const switchGameMenu = () => {
+        const mainMenu = document.querySelector(".main-menu");
+        const inGameMenu = document.querySelector(".ingame-menu");
 
+        if(!isGamePlaying) {
+            mainMenu.classList.add("inactive");
+            inGameMenu.classList.remove("inactive");
+            isGamePlaying = true;
+            // Render the board 
+            renderBoard();
+        }
+        else {
+            mainMenu.classList.remove("inactive");
+            inGameMenu.classList.add("inactive");
+            isGamePlaying = false;
+            // Delete the board
+            //resetBoard(1);
+        };
+    };
+    const formData = submitFormHandler();
+    const renderBoard = () => {
+        
+        const game = new Game();
+    };
+    
+    const playGameBtn = document.querySelector(".play-game-btn");
 
     console.log("Script loaded successfully...");
 }
