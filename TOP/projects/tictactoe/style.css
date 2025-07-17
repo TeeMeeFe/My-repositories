@@ -55,6 +55,11 @@ dialog {
     padding: 0 10px 0 10px;
 }
 
+.player-form {
+    display: flex;
+    gap: 1em;
+}
+
 div fieldset {
     padding-top: 1em;
 }
