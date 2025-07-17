@@ -1,3 +1,154 @@
+class Player {
+    constructor(name, symbol, score = 0){
+        this.name = name;
+        this.symbol = symbol;
+        this.score = score;
+    }
+
+    get getData() {
+        return this;
+    }
+
+    /**
+     * @param {number} value
+     */
+    set setScore(value) {
+        this.setScore = value;
+    }
+}
+
+class Board {
+    static #rows = 3;
+    static #columns = 3;
+    #board = [];
+
+    /**
+     * @description Creates a 2d array, populating each row and column with a cell we create
+     */ 
+    #populateBoard() {
+        for(let i = 0; i < Board.#rows; i++) {
+            this.#board[i] = [];
+            for(let j = 0; j < Board.#columns; j++) {
+                this.#board[i].push(new Cell);
+            };
+        };
+    };
+
+    /**
+     * @description Gets the status of the board
+     */
+    getBoard = () => this.#board;
+
+    /**
+     * @description Resets the board
+     */ 
+    resetBoard = () => {
+        this.#board = [];
+        this.#populateBoard();
+    };
+
+    /**
+     * @params `number` row, `number` column, `string` player symbol
+     * @description Fills a cell with a player's symbol at a row:column position
+     */ 
+    fillCell = (row, column, player) => {
+        const reason = {
+            notAvailable : false, 
+            alreadyFilled : false,
+        };
+        // Look for all the cells that are not filled yet(or are nullish)
+        const availableCells = this.#board
+            .filter(r => r.some(Cell => Cell.getValue() === null))
+            .map(r => r.filter(Cell => Cell.getValue() === null));
+
+        // If no cell is available
+        if(!availableCells.length) {
+            reason.notAvailable = true;
+            return reason;
+        };
+        // If that cell is occupied
+        if(this.#board[row][column].getValue() !== null) {
+            reason.alreadyFilled = true;
+            return reason; 
+        };
+        // Otherwise fill the cell with the player's symbol
+        this.#board[row][column].addSymbol(player);
+
+        return true;
+    };
+}
+
+class Cell {
+    constructor(value = null) {
+        this.value = value;
+    }
+
+    /**
+     * @param {object} player
+     * @description Take a valid player to populate a cell
+     */
+    set addSymbol (player) { this.value = player };
+
+    /**
+     * @description Retrieve the value of a cell
+     */ 
+    get getValue () { this.value };
+}
+
+class Game {
+    /*players = {
+        playerOne : new Player("Player One", "X"),
+        playerTwo : new Player("Player Two", "O"),
+    }*/
+
+    board = new Board;
+    
+}
+
+const textMessage = (string) => {
+    console.log(string);
+    return string;
+};
+
+const screenController = () => {
+    //const playerOneDOMName = document.querySelector(".player1-name");
+    const playGameBtn = document.querySelector(".play-game-btn");
+    const formData = submitFormHandler();
+    const game = new Game;
+
+    const submitFormHandler = () => { 
+        const playerFormData = document.querySelector(".player-form");
+
+        playerFormData.addEventListener("submit", e => {
+            // Prevent our form from doing a http POST method and instead we handle the data ourselves
+            e.preventDefault();
+            new FormData(playerFormData);
+        });
+        playerFormData.addEventListener("formdata", e => {
+            console.log("FormData fired");
+
+            // Get the form data
+            const data = e.formData;
+            const arr = [];
+
+            // Push our datae into an array
+            data.forEach((value, key) => {
+                arr.push([key, value]);
+            });
+
+            // Convert our array into an object
+            const obj = [Object.fromEntries(arr),];
+
+            return obj[0];
+        });
+    }
+
+
+    console.log("Script loaded successfully...");
+}
+
+screenController();
+
 /*
 function gameBoard() {
     const rows = 3;
