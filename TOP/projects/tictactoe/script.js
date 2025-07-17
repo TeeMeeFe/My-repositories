@@ -23,19 +23,20 @@ class Board extends Cell {
     /**
      * @description Creates a 2d array, populating each row and column with a cell we create
      */ 
-    #populateBoard() {
+    #populateBoard = (() => {
         for(let i = 0; i < Board.#rows; i++) {
             this.#board[i] = [];
             for(let j = 0; j < Board.#columns; j++) {
                 this.#board[i].push(new Cell);
             };
         };
-    };
+    })();
 
     /**
-     * @description Gets the status of the board
+     * @description Gets the array with the contents of the board
+     * @returns `Array` board
      */
-    getBoard = () => this.#board;
+    get getBoard () { return this.#board };
 
     /**
      * @description Resets the board
@@ -94,7 +95,7 @@ class Player {
 
     /**
      * @param {number} value
-     * @description Adds to the player's instance score
+     * @description Adds `value` to the player's instance score
      */
     set addScore (value) {
         this.score += value;
@@ -112,22 +113,33 @@ class Game {
         }
     }
 
-    static #board = new Board;
+    #board = new Board;
     #textBoard = "";
     #activePlayer = null;
 
     /**
-     * @description A method to get all the players 
-     * @returns `Array` Array with the instance of player One and player Two
+     * @description Gets the data of all players
+     * @returns `Array` with the instance of player One and player Two
      */
     get getAllPlayers () { return [this.object.playerOne, this.object.playerTwo] };
 
     /**
-     * @description A method to get who goes first
+     * @description Gets the atribute `goesFirst` in a instance of `Game`
      * @returns `String` player that goes first
      */
     get getPlayerGoesFirst () { return this.object.goesFirst };
 
+    /**
+     * @description Gets the player that's on turn
+     * @return `null` | `Player`
+     */
+    get getActivePlayer () { return this.#activePlayer };
+
+    /**
+     * @description A method to get the board's data
+     * @returns `Board` class
+     */
+    get getBoard () { return this.#board.getBoard };
     /**
      * @description A method to manipulate some text to be returned, useful for the front-end
      * @returns `String` textBoard
@@ -143,11 +155,11 @@ class Game {
      * @description A method to reset the game
      */
     resetGameState = () => {
-        Board.resetBoard(); // Clean the board
+        this.#board.resetBoard(); // Clean the board
         this.object.winner = null; // Nullify the instance of winner and activePlayer
         this.#activePlayer = null; 
         this.#textBoard = "";
-        this.#swapGoesFirst();
+        this.#swapGoesFirst(); // Swap turn so the opposite player can go first on next round
     };
 
     /**
@@ -164,7 +176,7 @@ class Game {
                        this.getPlayerGoesFirst == "player1" ? this.object.playerOne : this.object.playerTwo : this.object.playerOne;
 
         // Otherwise fill the cell
-        const fillCell = Board.fillCell(row, column, player.symbol);
+        const fillCell = this.#board.fillCell(row, column, player.symbol);
         // Return the reasons it failed to do so
         if(fillCell.alreadyFilled === true) {
             this.#textBoard = textMessage("That cell is already filled! Try again...");
@@ -189,7 +201,7 @@ class Game {
     };
 
     checkBoard = (player) => {
-        const brd = Game.#board.getBoard();
+        const brd = this.#board.getBoard();
         const rows = brd.length;
         const cols = brd[0].length;
         const symbol = player.symbol;
@@ -310,14 +322,47 @@ const screenController = () => {
     };
 
     submitFormHandler();
+
+    // A method to render a board on screen
     const renderBoard = (formData) => {
         const game = new Game(formData);
-        console.log(`Destination reached! Game is ${game}`);
-        console.log(game.getAllPlayers);
-        console.log(game.getPlayerGoesFirst);
+        const gameBoard = game.getBoard;
+        const boardDiv = document.querySelector(".board-container");
+        const boardSize = {
+            rows : gameBoard.length,
+            cols : gameBoard[0].length,
+        };
+        // Clear the board
+        boardDiv.textContent = "";
+        // Populate the front-end board with cells as buttons
+        let indexCell = 1;
+        for(let i = 0; i < boardSize.rows; i++) {
+            for(let j = 0; j < boardSize.cols; j++) {
+                // For every cell the board has, we create a button!
+                const cellButton = document.createElement("button");
+                // Add classes and its content
+                cellButton.classList.add("cell");
+                cellButton.dataset.row = i;
+                cellButton.dataset.column = j;
+                cellButton.dataset.index = indexCell;
+                cellButton.textContent = Cell.getValue;
+                indexCell++;
+                // Append it to the DOM element
+                boardDiv.appendChild(cellButton);
+            };
+        };
+        //updateBoard(); 
+    };
+
+    // A method to render the board and update it 
+    const updateBoard = () => {
+        // Update our active player too
+        activePlayer = Game.getActivePlayer();
+        // Show whose turn is...
+        updateTurnDiv();
     };
     
-    const playGameBtn = document.querySelector(".play-game-btn");
+    //const playGameBtn = document.querySelector(".play-game-btn");
 
     console.log("Script loaded successfully...");
 }
