@@ -1,27 +1,21 @@
-class Player {
-    constructor(name, symbol, score = 0){
-        this.name = name;
-        this.symbol = symbol;
-        this.score = score;
+class Cell {
+    constructor(value = null) {
+        this.value = value;
     }
 
     /**
-     * @description Gets the player's instance data
+     * @param {object} player
+     * @description Take a valid player to populate a cell
      */
-    get getData() {
-        return this;
-    }
+    set addSymbol (player) { this.value = player };
 
     /**
-     * @param {number} value
-     * @description Sets the player's instance score
-     */
-    set setScore(value) {
-        this.setScore = value;
-    }
+     * @description Retrieve the value of a cell
+     */ 
+    get getValue () { return this.value };
 }
 
-class Board {
+class Board extends Cell {
     static #rows = 3;
     static #columns = 3;
     #board = [];
@@ -54,16 +48,18 @@ class Board {
     /**
      * @params `number` row, `number` column, `string` player symbol
      * @description Fills a cell with a player's symbol at a row:column position
+     * @returns `Object` with any reason as `Bool`
      */ 
     fillCell = (row, column, player) => {
         const reason = {
             notAvailable : false, 
             alreadyFilled : false,
         };
+
         // Look for all the cells that are not filled yet(or are nullish)
         const availableCells = this.#board
-            .filter(r => r.some(Cell => Cell.getValue() === null))
-            .map(r => r.filter(Cell => Cell.getValue() === null));
+            .filter(r => r.some(() => super.getValue() === null))
+            .map(r => r.filter(() => super.getValue() === null));
 
         // If no cell is available
         if(!availableCells.length) {
@@ -71,37 +67,123 @@ class Board {
             return reason;
         };
         // If that cell is occupied
-        if(this.#board[row][column].getValue() !== null) {
+        if(this.#board[row][column](super.getValue()) !== null) {
             reason.alreadyFilled = true;
             return reason; 
         };
         // Otherwise fill the cell with the player's symbol
-        this.#board[row][column].addSymbol(player);
+        this.#board[row][column](super.addSymbol(player));
 
-        return true;
+        return reason;
     };
 }
 
-class Cell {
-    constructor(value = null) {
-        this.value = value;
+class Player {
+    constructor(name, symbol, score = 0){
+        this.name = name;
+        this.symbol = symbol;
+        this.score = score;
     }
 
     /**
-     * @param {object} player
-     * @description Take a valid player to populate a cell
+     * @description Gets the player's instance data
      */
-    set addSymbol (player) { this.value = player };
+    get getData () {
+        return this;
+    }
 
     /**
-     * @description Retrieve the value of a cell
-     */ 
-    get getValue () { this.value };
+     * @param {number} value
+     * @description Adds to the player's instance score
+     */
+    set addScore (value) {
+        this.score += value;
+    }
 }
 
 class Game {
+    // Naive constructor
+    constructor(object) {
+        this.object = { 
+            playerOne : new Player(object.name_player1, object.symbol_player1),
+            playerTwo : new Player(object.name_player2, object.symbol_player2),
+            goesFirst : object.goesfirst,
+            winner : null,
+        }
+    }
+
+    textBoard = "";
+    activePlayer = null;
+
+    /**
+     * @description A method to get all the players 
+     * @returns `Array` Array with the instance of player One and player Two
+     */
+    get getAllPlayers () { return [this.object.playerOne, this.object.playerTwo] };
+
+    /**
+     * @description A method to get who goes first
+     * @returns `String` player that goes first
+     */
+    get getPlayerGoesFirst () { return this.object.goesFirst };
+
+    /**
+     * @description A method to manipulate some text to be returned, useful for the front-end
+     * @returns `String` textBoard
+     */
+    get getTextBoard () { return this.textBoard };
+
     static #board = new Board;
-    
+
+    /**
+     * @description A method to reset the board
+     */
+    resetGameState = () => {
+        Board.resetBoard(); // Clean the board
+        this.object.winner = null; // Nullify our winner
+        this.textBoard = "";
+        activePlayer = players.playerOne;
+        
+    };
+
+    /**
+     * @description A method to switch turns
+     */
+    changeTurn = () => activePlayer = activePlayer === this.object.playerOne ? this.object.playerTwo : this.object.playerOne;
+
+    /**
+     * @description A method to play the rounds
+     * @returns `Boolean` = `False` if failed to play, otherwise `True`; `Object` if a winner was found
+     */ 
+    playRound = (row, column) => {
+        const player = this.activePlayer = this.activePlayer == null ? 
+                       this.getPlayerGoesFirst == "player1" ? this.object.playerOne : this.object.playerTwo : this.object.playerOne;
+
+        // Otherwise fill the cell
+        const fillCell = Board.fillCell(row, column, player.symbol);
+        // Return the reasons it failed to do so
+        if(fillCell.alreadyFilled === true) {
+            this.textBoard = textMessage("That cell is already filled! Try again...");
+            return false;
+        }
+        else if(fillCell.notAvailable === true) {
+            this.textBoard = textMessage("No cells are available anymore, game over!");
+            return false;
+        }
+        // Otherwise continue...
+        else {
+            console.log(`Filling = Row: ${row}, Col: ${column}, with ${player.symbol} (${player.name})`);
+            this.changeTurn();
+            if(this.checkBoard(player)) {
+                this.object.winner = player;
+                this.textBoard = textMessage(`Tic Tac Toe: ${player.name} has won the game!`);
+                player.addScore(1);
+                return this.object.winner;
+            };
+        };
+        return true;
+    };
+
     checkBoard = (player) => {
         const brd = Game.#board.getBoard();
         const rows = brd.length;
@@ -163,7 +245,6 @@ class Game {
                 if(isDiag) return true;
             };
         };
-
         return false;
     };
 }
@@ -201,10 +282,8 @@ const screenController = () => {
             // Convert our array into an object
             const obj = [Object.fromEntries(arr),][0];
             switchGameMenu();
-
-            console.log(obj);
-
-            return obj;
+            // Render the board 
+            renderBoard(obj);
         });
     }
     // A method to toggle between the main menu and ingame menu
@@ -216,8 +295,6 @@ const screenController = () => {
             mainMenu.classList.add("inactive");
             inGameMenu.classList.remove("inactive");
             isGamePlaying = true;
-            // Render the board 
-            renderBoard();
         }
         else {
             mainMenu.classList.remove("inactive");
@@ -227,10 +304,13 @@ const screenController = () => {
             //resetBoard(1);
         };
     };
-    const formData = submitFormHandler();
-    const renderBoard = () => {
-        
-        const game = new Game();
+
+    submitFormHandler();
+    const renderBoard = (formData) => {
+        const game = new Game(formData);
+        console.log(`Destination reached! Game is ${game}`);
+        console.log(game.getAllPlayers);
+        console.log(game.getPlayerGoesFirst);
     };
     
     const playGameBtn = document.querySelector(".play-game-btn");
@@ -374,8 +454,7 @@ function gameController() {
         // Wipe everything
         if(type == 1) players.resetPlayersScore();
     };
-    // A method to switch turns
-    const changeTurn = () => activePlayer = activePlayer === players.playerOne ? players.playerTwo : players.playerOne;
+    
     // A method to print the board
     const printNewRound = () => {
         board.printBoard();
