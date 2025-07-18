@@ -23,13 +23,18 @@ class Board {
     /**
      * @description Creates a 2d array, populating each row and column with a cell we create
      */ 
-    #populateBoard = (() => {
+    #populateBoard () {
         for(let i = 0; i < Board.#rows; i++) {
             this.#board[i] = [];
             for(let j = 0; j < Board.#columns; j++) {
                 this.#board[i].push(new Cell);
             };
         };
+    };
+
+    // Terrible hack to deal with class shortcomings when it comes to recalling an IIFE from another function within the same class
+    #IIFE = (() => {
+        this.#populateBoard();
     })();
 
     /**
@@ -42,8 +47,8 @@ class Board {
      * @description Resets the board
      */ 
     resetBoard = () => {
-        this.#board.forEach(e => this.#board.pop(e));
-        this.#populateBoard;
+        this.#board.length = 0;
+        this.#populateBoard();
     };
 
     /**
@@ -51,7 +56,7 @@ class Board {
      * @description Fills a cell with a player's symbol at a row:column position
      * @returns `Object` with any reason as `Bool`
      */ 
-    fillCell = (row, column, player) => {
+    fillCell = (row, column, symbol) => {
         const reason = {
             notAvailable : false, 
             alreadyFilled : false,
@@ -73,7 +78,7 @@ class Board {
             return reason; 
         };
         // Otherwise fill the cell with the player's symbol
-        this.#board[row][column].addSymbol(player);
+        this.#board[row][column].addSymbol(symbol);
 
         return reason;
     };
@@ -140,6 +145,7 @@ class Game {
      * @returns `Board` class
      */
     get getBoard () { return this.#board.getBoard };
+    
     /**
      * @description A method to manipulate some text to be returned, useful for the front-end
      * @returns `String` textBoard
@@ -156,10 +162,14 @@ class Game {
      */
     resetGameState = () => {
         this.#board.resetBoard(); // Clean the board
-        this.object.winner = null; // Nullify the instance of winner and activePlayer
-        this.#activePlayer = null; 
+        this.object.winner = null; // Nullify the instance of winner 
         this.#textBoard = "";
         this.#swapGoesFirst(); // Swap turn so the opposite player can go first on next round
+        this.#activePlayer = this.#parsePlayer();
+    };
+
+    #parsePlayer () {
+        return this.getPlayerGoesFirst == "player1" ? this.object.playerOne : this.object.playerTwo;
     };
 
     /**
@@ -171,15 +181,15 @@ class Game {
      * @description A method to play the rounds
      * @returns `Boolean` = `False` if failed to play, otherwise `True`; `Object` if a winner was found
      */ 
-    playRound = (row, column) => {
-        const player =  this.#activePlayer == null ? this.getPlayerGoesFirst == "player1" ? 
-                        this.object.playerOne : this.object.playerTwo : this.getActivePlayer;
+    playRound = (row, column, player) => {
+        if(player === null){
+            player = this.#parsePlayer();
+            this.#activePlayer = player;
+        }
 
-        this.#textBoard = `It's ${player.name} turn now.`;
-
-        // Otherwise fill the cell
+        // Fill the cell
         const fillCell = this.#board.fillCell(row, column, player.symbol);
-        // Return the reasons it failed to do so
+        // If it failed to do so, return the reasons why
         if(fillCell.alreadyFilled === true) {
             this.#textBoard = textMessage("That cell is already filled! Try again...");
             return fillCell;
@@ -191,13 +201,17 @@ class Game {
         // Otherwise continue...
         else {
             console.log(`Filling = Row: ${row}, Col: ${column}, with ${player.symbol} (${player.name})`);
-            this.changeTurn();
             if(this.checkBoard(player)) {
                 this.object.winner = player;
                 this.#textBoard = textMessage(`Tic Tac Toe: ${player.name} has won the game!`);
                 player.addScore = 1;
                 return this.object.winner;
             };
+
+            // Abysmal workaround to get this to display correctly, i know!
+            this.changeTurn();
+            this.#textBoard = `It's ${this.#activePlayer.name} turn now.`; 
+            this.changeTurn();
         };
         return fillCell;
     };
@@ -368,14 +382,6 @@ const screenController = () => {
         turnTellerdiv.textContent = turnDiv;         
     }; 
 
-     // A method to render the board and update it 
-    const updateBoard = () => {
-        // Update our active player too
-        activePlayer = Game.getActivePlayer;
-        // Show whose turn is...
-        updateTurnDiv();
-    };
-
     // A method to delete the board 
     const wipeBoard = () => {
         // Reset the board DOM
@@ -386,6 +392,7 @@ const screenController = () => {
         });
         // Reset the game controller
         game.resetGameState();
+        updateTurnDiv();
     };
 
     // The most important handler to marry the front-end with back-end
@@ -400,16 +407,14 @@ const screenController = () => {
         // Return early if we didn't click any buttons;
         if(!cellBtn) return;
         // Play a round and update the board with the results
-        const round = game.playRound(cellPos.row, cellPos.col, Game.getActivePlayer);
-        // If our clicked cell is either out of bounds(through the console) or is already filled
-        if(round.alreadyFilled === true) {
-            updateBoard();
-        }
-        else {
+        const round = game.playRound(cellPos.row, cellPos.col, game.getActivePlayer);
+        // If our clicked cell is already filled
+        if(round.alreadyFilled !== true) {
             // Populate the cell's text with the player's symbol
             e.target.textContent = game.getActivePlayer.symbol;
-            updateBoard();
-        };
+        }
+        updateTurnDiv();
+        game.changeTurn();
         // Round is over, disable our buttons!
         if(round.notAvailable === true || round.name !== undefined) {
             cells.forEach(c => {c.setAttribute("disabled", "")}); 
@@ -450,8 +455,6 @@ const screenController = () => {
     });    
     // Update the board when we click on a cell
     inGameMenu.addEventListener("click", e => gameStateHandler(e));
-
-    //const playGameBtn = document.querySelector(".play-game-btn");
 
     console.log("Script loaded successfully...");
 }
