@@ -10,7 +10,7 @@ module.exports = {
         clean : true,
     },
     devtool : "eval-source-map",
-    devserver : {
+    devServer : {
         watchFiles : ["./src/template.html"],
     },
     plugins : [
