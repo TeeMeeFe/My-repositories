@@ -2,6 +2,7 @@
   "name": "exercise_22_webpack",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "devDependencies": {
     "webpack": "^5.100.2",
     "webpack-cli": "^6.0.1"
