@@ -4,3 +4,6 @@
 [submodule "TOP/js-exercises"]
 	path = TOP/js-exercises
 	url = https://github.com/TeeMeeFe/javascript-exercises.git
+[submodule "TOP/projects/webpack-restaurant"]
+	path = TOP/projects/webpack-restaurant
+	url = https://github.com/TeeMeeFe/webpack-restaurant
