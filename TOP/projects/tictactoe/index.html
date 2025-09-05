@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe: the game</title>
+    <script defer src="./script.js"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header>
+        <h1>Tic Tac Toe: the game</h1>
+        <h3>Made by yours truly</h3>
+    </header>
+    <main>
+        <div class="main-menu">
+            <div class="input-container">
+                <div id="playerOne">
+                    <fieldset>
+                        <legend>Player One</legend>
+                        <label for="player1">Name:</label>
+                        <input type="text" id="name" name="player1-name" placeholder="Player One" disabled>
+                        <fieldset class="symbol-row" disabled>
+                            Symbol:
+                            <label for="player1" class="symbol-label">X</label>
+                            <input type="radio" id="symbol-type-1" name="symbol-player1" value="X" checked>
+                            <label for="player1" class="symbol-label">O</label>
+                            <input type="radio" id="symbol-type-2" name="symbol-player1" value="O">
+                            <label for="player1" class="symbol-label">-</label>
+                            <input type="radio" id="symbol-type-3" name="symbol-player1" value="-">
+                            <label for="player1" class="symbol-label">+</label>
+                            <input type="radio" id="symbol-type-4" name="symbol-player1" value="+">
+                        </fieldset>
+                    </fieldset>
+                </div>
+                <div id="playerTwo">
+                    <fieldset>
+                        <legend>Player Two</legend>
+                        <label for="player2">Name:</label>
+                        <input type="text" id="name" name="player2-name" placeholder="Player Two" disabled>
+                        <fieldset class="symbol-row" disabled>
+                            Symbol:
+                            <label for="player2" class="symbol-label">X</label>
+                            <input type="radio" id="symbol-type-1" name="symbol-player2" value="X">
+                            <label for="player2" class="symbol-label">O</label>
+                            <input type="radio" id="symbol-type-2" name="symbol-player2" value="O" checked>
+                            <label for="player2" class="symbol-label">-</label>
+                            <input type="radio" id="symbol-type-3" name="symbol-player2" value="-">
+                            <label for="player2" class="symbol-label">+</label>
+                            <input type="radio" id="symbol-type-4" name="symbol-player2" value="+">
+                        </fieldset>
+                    </fieldset>
+                </div>
+            </div>
+            <button class="play-game play-game-btn">Game!</button>
+        </div>
+        <div class="ingame-menu inactive">
+            <div class="game-container">
+                <div class="turn-teller">Lorem, ipsum.</div>
+                <div class="board-container"></div>
+                <div class="play-menu-btns">
+                    <button class="play-game reset-game-btn">Reset game</button>
+                    <button class="play-game view-score-btn">View Score</button>
+                    <button class="play-game main-menu-btn">Main menu</button>
+                </div>
+                <dialog class="view-score-dialog" id="dialogs">
+                    <form method="dialog">
+                        <fieldset class="view-score-dialog">
+                            <legend>Scores</legend>
+                            <p class="view-score playerOne"></p>
+                            <p class="view-score playerTwo"></p>
+                        </fieldset>
+                    </form>
+                    <div class="view-score-btns">
+                        <button id="close-btn" value="cancel" formmethod="dialog">Close</button>
+                    </div>
+                </dialog>
+            </div> 
+        </div>
+    </main>
+</body>
+</html>

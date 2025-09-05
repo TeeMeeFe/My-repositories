@@ -1,0 +1,204 @@
+/* A quick reset, classic and reliable. Unopinionated */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100%;
+    background-color: #505080;
+}
+
+main {
+    display: flex;
+    flex-flow: nowrap column;
+
+    height: 100vh;
+    width: 55%;
+    margin: auto;
+    background-color: #EFEFEF;
+    border: 1px solid #AFAFCF;
+}
+
+a:active, a:hover, a:visited, a:link {
+    text-decoration: none;
+}
+
+
+ul {
+    list-style-type: none;
+}
+
+dialog {
+    margin: 0;
+    padding: 4rem;
+    border-radius: 16px;
+
+    transform: translateX(-50%);
+    left: 50%;
+    top: 10%;
+
+    width: fit-content;
+}
+
+.container {
+    flex: 1;
+}
+
+.header {
+    background-color: #cfcff7;
+    padding: 1em 2.5em; 
+}
+
+.header ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    justify-content: flex-end;
+}
+
+.mlp-logo {
+    margin-right: auto;
+}
+
+.main-body {
+    height: 100%; /* Placeholder */
+}
+
+.book-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(240px, 1fr));
+    justify-items: center;
+    gap: 16px;
+    padding: 16px;
+}
+
+.card {
+    height: 240px;
+    width: 100%;
+    background-color: #CFCFCF;
+    border: 1px solid #BABABA;
+    border-radius: 4px;
+    opacity: 25%;
+}
+
+.card:hover {
+    opacity: 90%;
+    cursor: pointer;
+}
+
+.book-adder {
+    align-content: center;
+    text-align: center;
+    color: #0F0F0F;
+}
+
+.book-adder > h1 {
+    font-size: 72px;
+    font-weight: lighter;
+}
+
+.footer {
+    flex: 1;
+    background-color: #282850;
+    color: #EFEFEF;
+    max-height: 15ch;
+
+    display: flex;
+    justify-content: space-around;
+    flex-flow: wrap row-reverse;
+    align-content: center;
+}
+
+fieldset {
+    display: flex;
+    gap: 1.5em;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    padding: 8px;
+}
+
+fieldset > div:nth-child(3) {
+    margin-right: 15%;
+}
+
+label div {
+    margin-bottom: 16px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 8px;
+}
+
+.buttons > button {
+    font-size: 16px;
+    padding: 4px;
+}
+
+textarea#Description {
+    max-width: fit-content;
+    height: 10ch;
+    resize: none;
+}
+
+::backdrop {
+    background-color: #0F0F0F;
+    opacity: 50%;
+}
+
+fieldset.book-dialog {
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+}
+
+fieldset.book-dialog > img {
+    max-height: 240px;
+}
+
+p.book.Description {
+    display: inline;
+    padding-left: calc(10ch + .5ch);
+    text-indent: calc(-10ch - .5ch);
+}
+
+.book {
+    display: flex;
+    flex-flow: nowrap column;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.book div {
+    flex: 1;
+    align-content: center;
+}
+
+.card-remover {
+    /*visibility: hidden;*/
+    margin: 4px;
+    font-size: 24px;
+    align-self: flex-end;
+    z-index: -1;
+}
+
+/*.card-remover:hover { 
+    visibility: visible;
+}*/
+
+#book-remove-fieldset {
+    display: flex;
+    flex-direction: column;
+}
+
+#book-remove-fieldset > div {
+    display: flex;
+    justify-content: space-around;
+}

@@ -1,0 +1,37 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #eee;
+    font-family: 'Comic Sans', Arial;
+    padding-bottom: 8px;
+}
+
+div {
+    margin: 8px auto;
+    padding: 8px;
+}
+
+.check-them-out {
+    display: block;
+    font-weight: 800;
+}
+
+.title {
+    text-align: center;
+    padding-bottom: 16px;
+}
+
+.card-body {
+    background-color: #ddff;
+    width: 600px;
+    padding: 16px auto;
+    border: 1px solid;
+    border-color: #000;
+}
+
+.links {
+    padding: 24px;
+}

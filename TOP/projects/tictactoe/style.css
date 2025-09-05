@@ -1,0 +1,135 @@
+html {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-family: 'Courier New', Courier, monospace;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #77AAEF;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2em;
+}
+
+dialog {
+    margin: 0;
+    padding: 4rem;
+    border-radius: 16px;
+
+    transform: translateX(-50%);
+    left: 50%;
+    top: 10%;
+
+    width: fit-content;
+}
+
+::backdrop {
+    background-color: #0F0F0F;
+    opacity: 50%;
+}
+
+.view-score-btns {
+    display: flex;
+    margin-top: 1em;
+    justify-content: center;
+}
+
+.main-menu {
+    display: flex;
+    height: 50%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.input-container {
+    display: flex;
+    margin: 1em;
+}
+
+.input-container .symbol-label {
+    padding: 0 10px 0 10px;
+}
+
+div fieldset {
+    padding-top: 1em;
+}
+
+.input-container label {
+    padding-right: 1em;
+}
+
+.symbol-label label,
+.symbol-row fieldset {
+    float: left;
+}
+
+fieldset.symbol-row {
+    border: none;
+    padding: 0;
+    margin: 1em 0;
+}
+
+#playerOne,
+#playerTwo {
+    margin: 1.5em;
+}
+
+button.play-game {
+    max-width: fit-content;
+    font-size: 2em;
+}
+
+button.cell {
+    font-size: 15vh;
+}
+
+.inactive {
+    display: none;
+}
+
+.ingame-menu {
+    justify-items: center;
+}
+
+.game-container {
+    display: grid;
+    grid-template-rows: 1fr 5fr;
+    grid-template-columns: 5fr 1fr;
+
+    margin: auto;
+    height: 600px;
+    width: 100%;
+    max-height: 90vh;
+    max-width: 90vh;
+}
+
+.turn-teller {
+    margin: auto;
+    grid-area: 1 / span 2;
+    padding-bottom: 1em;
+}
+
+.board-container {
+    display: grid;
+    grid: 2fr;
+    grid-row: 2;
+    justify-content: center;
+    grid-template-columns: repeat(3, minmax(4em, 1fr));
+    grid-template-rows: repeat(3, minmax(4em, 1fr));
+    gap: 1em;
+    padding: 1em;
+}
+
+.play-menu-btns {
+    grid-row: 2;
+    grid-column: 2;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+}
+

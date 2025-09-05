@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fizz buzz</title>
+</head>
+<body>
+    <script>
+        let answer = parseInt(prompt("Please enter the number you would like to FizzBuzz up to: "));
+
+        for(let i = 0; i <= answer; i++) {
+
+            let response = i % 15 === 0 && i !== 0 ? "FizzBuzz" : 
+                           i % 5 === 0 && i !== 0 ? "Buzz" : 
+                           i % 3 === 0 && i !== 0 ? "Fizz" : i
+                           
+            console.log(response);
+        }
+    </script>
+</body>
+</html>

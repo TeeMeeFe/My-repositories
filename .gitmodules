@@ -1,0 +1,6 @@
+[submodule "TOP/css-exercises"]
+	path = TOP/css-exercises
+	url = https://github.com/TeeMeeFe/css-exercises.git
+[submodule "TOP/js-exercises"]
+	path = TOP/js-exercises
+	url = https://github.com/TeeMeeFe/javascript-exercises.git
