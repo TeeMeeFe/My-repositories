@@ -1,5 +1,18 @@
-import mysql.connector
+import mysql.connector 
+import logging
 from mysql.connector import errorcode
+
+# Configuración del logger
+logger = logging.getLogger("mysql.connector")
+logger.setLevel(logging.INFO) # Establecemos el nivel de registro hasta INFO
+
+# Formateamos el registro del logger
+formatter = logging.Formatter("[%(asctime)s] - %(name)s(%(levelname)s): %(message)s")
+
+# Llevamos los registros a la consola
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+logger.addHandler(stream_handler)
 
 # Conectamos a una base de datos MySQL local
 def conectarABD():
@@ -12,16 +25,15 @@ def conectarABD():
             port = "3307"
         )
     except mysql.connector.Error as err:
+        logger.error(err)
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print("El usuario o contraseña no son correctos")
-        elif err.errno == errorcode.ER_BAD_DB_ERROR | errorcode.ER_NO_DB_ERROR:
-            print("Error en la conexión a la base de datos")
+            raise "El usuario o contraseña no son correctos"
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            raise "Error en la conexión a la base de datos"
         else:
-            print(err)
-    return None
+            raise "Se ha producido un error!"
 
 conn = conectarABD()
-if not isinstance(conn, object): exit() # Salimos del programa si algo salio mal
 
 # Creamos un cursor para ejecutar sentencias SQL
 cursor = conn.cursor()
