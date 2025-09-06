@@ -27,6 +27,10 @@ dialog {
     width: fit-content;
 }
 
+div fieldset {
+    padding-top: 1em;
+}
+
 ::backdrop {
     background-color: #0F0F0F;
     opacity: 50%;
@@ -48,15 +52,12 @@ dialog {
 
 .input-container {
     display: flex;
+    gap: 1em;
     margin: 1em;
 }
 
 .input-container .symbol-label {
     padding: 0 10px 0 10px;
-}
-
-div fieldset {
-    padding-top: 1em;
 }
 
 .input-container label {
@@ -77,6 +78,11 @@ fieldset.symbol-row {
 #playerOne,
 #playerTwo {
     margin: 1.5em;
+}
+
+.play-game-div {
+    display: flex;
+    justify-content: center;
 }
 
 button.play-game {
