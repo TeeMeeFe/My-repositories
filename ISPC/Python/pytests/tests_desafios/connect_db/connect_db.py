@@ -25,7 +25,7 @@ def connectToDB():
             port = "3307"
         )
     except mysql.connector.Error as err:
-        logging.error(err)
+        logger.error(err)
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             raise "El usuario o contraseña no son correctos"
         elif err.errno == errorcode.ER_BAD_DB_ERROR:

@@ -1,5 +1,4 @@
-from connect_db import connectToDB
-import logging
+from connect_db import connectToDB, logger
 import mysql.connector
 
 conn = connectToDB()
@@ -15,18 +14,15 @@ if conn.is_connected:
     try:
         # Generamos la consulta SQL
         cursor.execute(query, (user_name,))
-        logging.log(logging.INFO, cursor)
+        logger.info(cursor)
 
         for fila in cursor.fetchall():
-            print(f"ID: {fila[0]}, Nombre: {fila[1]}, Edad: {fila[2]}")
+            logger.info(f"ID: {fila[0]}, Nombre: {fila[1]}, Edad: {fila[2]}")
 
         cursor.close()
     except mysql.connector.Error as err:
-        logging.error(err)
+        logger.error(err)
         raise f"Error al ejecutar la consulta: {err}"
     finally:
         cursor.close()
         conn.close()
-
-
-        
