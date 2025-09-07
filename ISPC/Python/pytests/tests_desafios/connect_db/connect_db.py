@@ -17,6 +17,7 @@ logger.addHandler(stream_handler)
 # Conectamos a una base de datos MySQL local
 def connectToDB():
     try:
+        logger.info(f"Conectando con la base de datos {"test"}") # Se puede reemplazar por variables de entorno
         return mysql.connector.connect(
             user = "root",
             password = "",

@@ -8,7 +8,7 @@ if conn.is_connected:
     cursor = conn.cursor()
 
     # Creamos una consulta parametrizada con un nombre de usuario
-    user_name = "ana"
+    user_name = "Maira"
     query = "SELECT * FROM usuarios WHERE nombre =%s"
 
     try:

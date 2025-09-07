@@ -4,15 +4,16 @@ import mysql.connector
 conn = connectToDB()
 
 # Parametros para usuario nuevo
-id = 3
 nombre = "Maira"        
 edad = 18
 
 if conn.is_connected:
     try:
         with conn.cursor() as cursor:
-            query = "INSERT INTO usuarios (id, nombre, edad) VALUES (%s, %s, %s)"
-            cursor.execute(query, (id, nombre, edad,))
+            # Generamos la insercion de una fila con los datos en la tabla
+            query = "INSERT INTO usuarios (nombre, edad) VALUES (%s, %s)"
+            cursor.execute(query, (nombre, edad,))
+            logger.info(cursor)
             conn.commit()
             logger.info("Usuario registrado con exito.")
     except mysql.connector.Error as err:
