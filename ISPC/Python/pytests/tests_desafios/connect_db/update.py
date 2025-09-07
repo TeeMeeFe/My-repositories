@@ -17,6 +17,6 @@ if conn.is_connected:
             logger.info(f"{cursor.rowcount} usuario/s modificado/s con exito.")
     except mysql.connector.Error as err:
         logger.error(err)
-        raise f"Error al modificar, {err}"
+        raise f"Error al modificar usuario, {err}"
     finally:
         conn.close()
