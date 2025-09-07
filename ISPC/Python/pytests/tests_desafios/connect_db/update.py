@@ -4,23 +4,19 @@ import mysql.connector
 conn = connectToDB()
 
 # Parametros para varios usuarios nuevos
-nuevos_usuarios = [
-    ("Camila", 19),
-    ("Tobias", 25),
-    ("Verónica", 31)
-]
+cambiar_usuario = ["Rosario", 1]
 
 if conn.is_connected:
     try:
         with conn.cursor() as cursor:
             # Generamos la insercion de una fila con los datos en la tabla
-            query = "INSERT INTO usuarios (nombre, edad) VALUES (%s, %s)"
-            cursor.executemany(query, nuevos_usuarios)
+            query = "UPDATE usuarios SET nombre=%s WHERE id=%s"
+            cursor.execute(query, cambiar_usuario)
             logger.info(cursor)
             conn.commit()
-            logger.info(f"{cursor.rowcount} usuario/s registrado/s con exito.")
+            logger.info(f"{cursor.rowcount} usuario/s modificado/s con exito.")
     except mysql.connector.Error as err:
         logger.error(err)
-        raise f"Error al insertar, {err}"
+        raise f"Error al modificar, {err}"
     finally:
         conn.close()
