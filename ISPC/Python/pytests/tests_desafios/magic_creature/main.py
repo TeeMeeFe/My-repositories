@@ -6,7 +6,7 @@ dao = MagicalCreatureDAO()
 
 # Creamos una creatura nueva
 dragon = MagicCreature(_id = None, _nombre = "Firagon", _vigor = 50, _poder_magico = 250)
-dao.create(dragon)
+#dao.create(dragon)
 
 # Obtenemos dicha creatura
 creature = dao.get(1)
@@ -21,4 +21,4 @@ for creatura in creatures:
 dao.update(3, MagicCreature(_id = None, _nombre = "Humano", _vigor = 100, _poder_magico = 0))
 
 # O si en cambio, simplemente queremos eliminarla
-dao.delete(4)
+#dao.delete(4)

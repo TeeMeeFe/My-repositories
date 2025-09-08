@@ -20,3 +20,4 @@ class DataAccessDAO(ABC):
     @abstractmethod
     def delete(self, object):
         pass
+    

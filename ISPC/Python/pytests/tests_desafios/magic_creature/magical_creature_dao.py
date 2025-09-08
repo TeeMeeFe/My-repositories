@@ -50,7 +50,7 @@ class MagicalCreatureDAO(DataAccessDAO):
             try:
                 cursor = conn.cursor()
                 query = "UPDATE creatures SET nombre=%s, vigor=%s, poder_magico=%s WHERE id=%s"
-                update = (*creature._nombre, *creature._vigor, creature._poder_magico, id,)
+                update = (*creature._nombre, *creature._vigor, creature._poder_magico, id)
                 cursor.execute(query, update)
                 conn.commit()
             except mysql.connector.Error as err:    
