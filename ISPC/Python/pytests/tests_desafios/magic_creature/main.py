@@ -1,8 +1,9 @@
 from magical_creature import MagicCreature
 from magical_creature_dao import MagicalCreatureDAO
+from db_connect import connect_db
 
 # Creamos una instacia DAO 
-dao = MagicalCreatureDAO()
+dao = MagicalCreatureDAO(connect_db())
 
 # Creamos una creatura nueva
 dragon = MagicCreature(_id = None, _nombre = "Firagon", _vigor = 50, _poder_magico = 250)
