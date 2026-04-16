@@ -6,7 +6,7 @@ class Forma {
 
 class Circulo extends Forma {
     private radio:number = 0;
-    readonly _PI:number = Math.PI;
+    private readonly _PI:number = Math.PI;
 
     constructor(radio:number) {
         super();
