@@ -7,6 +7,10 @@ class Forma {
 class Circulo extends Forma {
     radio = 0;
     _PI = Math.PI;
+    constructor(radio) {
+        super();
+        this.radio = radio;
+    }
     get Radio() {
         return this.radio;
     }
@@ -55,7 +59,7 @@ class Rectangulo extends Forma {
 }
 const amorfo = new Forma();
 console.log(amorfo.tostring());
-const circulo = new Circulo();
+const circulo = new Circulo(1);
 circulo.Radio = 3;
 console.log(circulo.tostring());
 const rectangulo = new Rectangulo(3, 4);
